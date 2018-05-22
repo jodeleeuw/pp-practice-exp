@@ -65,32 +65,43 @@ var study_duration = 1000;
 /* audio */
 
 var context = new AudioContext();
-var slideBuffer = null;
+var audioBuffers = {};
 
-var request = new XMLHttpRequest();
-request.open('GET', 'audio/slide.mp3', true);
-request.responseType = 'arraybuffer';
+var firstloaded = false;
 
-// Decode asynchronously
-request.onload = function() {
-  context.decodeAudioData(request.response, function(buffer) {
-      slideBuffer = buffer;
-      ready();
-  });
+function loadAudio(url, name){
+  var request = new XMLHttpRequest();
+  request.open('GET', url, true);
+  request.responseType = 'arraybuffer';
+
+  // Decode asynchronously
+  request.onload = function() {
+    context.decodeAudioData(request.response, function(buffer) {
+        audioBuffers[name]= buffer;
+        if(!firstloaded){ firstloaded = true; }
+        else { ready(); }
+    });
+  }
+  request.send();
 }
-request.send();
+
+loadAudio('audio/slide.mp3', 'in');
+loadAudio('audio/slideout.mp3', 'out');
 
 /* end audio */
 
 function ready(){
 
-  var source = context.createBufferSource();
-  source.buffer = slideBuffer;
-  source.connect(context.destination);
-  source.start(0);
+  var sourceIn = context.createBufferSource();
+  var sourceOut = context.createBufferSource();
+  sourceIn.buffer = audioBuffers.in;
+  sourceOut.buffer = audioBuffers.out;
+  sourceIn.connect(context.destination);
+  sourceOut.connect(context.destination);
+  sourceIn.start(0);
 
   document.querySelector('#card').style.visibility = 'visible';
-  document.querySelector('#card').style.animation = "slide-in 0.5s forwards";
+  document.querySelector('#card').style.animation = "slide-in 0.5s ease-out forwards";
 
   document.querySelector('#card').addEventListener('animationend', function(){
     setTimeout(slideOut, study_duration);
@@ -98,7 +109,7 @@ function ready(){
 
   function slideOut(){
     document.querySelector('#card').style.animation = "slide-out 0.5s forwards";
-    source.start(0);
+    sourceOut.start(0);
   }
 
 }
