@@ -49,12 +49,19 @@
 <body>
     <div style="display: flex; margin: auto; flex: 1 1 100%; width: 100%;">
       <div style="text-align:center; margin:auto;">
-        <div id="card" style="visibility: hidden; width:500px; height: 300px; background-color: #fff; box-shadow: 0 2px 4px 0 rgba(0,0,0,0.50); font-size:60px; font-family:'Open Sans'; color: #555;">
-          <p style="line-height:150px; margin:0;">napkin</p>
-          <p style="line-height:150px; margin:0;">viking</p>
-          <div id="timer"></div>
+        <div id="card-holder" style="width:500px; height: 350px; position: relative;">
+          <div id="card" style="position:absolute; visibility: hidden; width:500px; height: 300px; background-color: #fff; box-shadow: 0 2px 4px 0 rgba(0,0,0,0.50); font-size:60px; font-family:'Open Sans'; color: #555;">
+            <p style="line-height:150px; margin:0;">napkin</p>
+            <p style="line-height:150px; margin:0;">viking</p>
+            <div id="timer"></div>
+          </div>
+          <div id="card-next" style="position: absolute; visibility: hidden; width:500px; height: 300px; background-color: #fff; box-shadow: 0 2px 4px 0 rgba(0,0,0,0.50); font-size:60px; font-family:'Open Sans'; color: #555;">
+            <p style="line-height:150px; margin:0;">monarch</p>
+            <p style="line-height:150px; margin:0;">viola</p>
+            <div id="timer"></div>
+          </div>
+          <p id="sub" style="font-size: 18px; font-weight: bold; color: white; margin: 0; padding-top: 320px">1 of 36</p>
         </div>
-        <p id="sub" style="font-size: 18px; font-weight: bold; color: white">1 of 36</p>
       </div>
     </div>
 </body>
@@ -67,8 +74,6 @@ var study_duration = 4000;
 var context = new AudioContext();
 var audioBuffers = {};
 
-var firstloaded = false;
-
 function loadAudio(url, name){
   var request = new XMLHttpRequest();
   request.open('GET', url, true);
@@ -78,27 +83,27 @@ function loadAudio(url, name){
   request.onload = function() {
     context.decodeAudioData(request.response, function(buffer) {
         audioBuffers[name]= buffer;
-        if(!firstloaded){ firstloaded = true; }
-        else { ready(); }
+        ready();
     });
   }
   request.send();
 }
 
-loadAudio('audio/slide.mp3', 'in');
-loadAudio('audio/slideout.mp3', 'out');
+loadAudio('audio/slideout.mp3', 'in');
+//loadAudio('audio/slideout.mp3', 'out');
 
 /* end audio */
 
 function ready(){
 
   var sourceIn = context.createBufferSource();
-  var sourceOut = context.createBufferSource();
   sourceIn.buffer = audioBuffers.in;
-  sourceOut.buffer = audioBuffers.out;
   sourceIn.connect(context.destination);
-  sourceOut.connect(context.destination);
   sourceIn.start(0);
+
+  var sourceIn2 = context.createBufferSource();
+  sourceIn2.buffer = audioBuffers.in;
+  sourceIn2.connect(context.destination);
 
   document.querySelector('#card').style.visibility = 'visible';
   document.querySelector('#card').style.animation = "slide-in 0.5s ease-out forwards";
@@ -109,7 +114,10 @@ function ready(){
 
   function slideOut(){
     document.querySelector('#card').style.animation = "slide-out 0.5s forwards";
-    sourceOut.start(0);
+    document.querySelector('#card-next').style.visibility = 'visible';
+    document.querySelector('#card-next').style.animation = "slide-in 0.5s ease-out forwards";
+    sourceIn2.start(0);
+    document.querySelector('#sub').innerHTML = "2 of 36";
   }
 
 }
