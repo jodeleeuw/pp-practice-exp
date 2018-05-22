@@ -76,7 +76,7 @@ request.onload = function() {
   context.decodeAudioData(request.response, function(buffer) {
       slideBuffer = buffer;
       ready();
-  }, onError);
+  });
 }
 request.send();
 
