@@ -34,12 +34,22 @@
     100% {transform: translateX(-300%) }
   }
 
+  @keyframes slide-in {
+    0% {transform: translateX(300%) }
+    100% {transform: translateX(0%) }
+  }
+
+  @keyframes slide-out {
+    0% {transform: translateX(0%) }
+    100% {transform: translateX(-300%) }
+  }
+
   </style>
 </head>
 <body>
     <div style="display: flex; margin: auto; flex: 1 1 100%; width: 100%;">
       <div style="text-align:center; margin:auto;">
-        <div id="card" style="animation: anim-slide 2s forwards; width:500px; height: 300px; background-color: #fff; box-shadow: 0 2px 4px 0 rgba(0,0,0,0.50); font-size:60px; font-family:'Open Sans'; color: #555;">
+        <div id="card" style="visibility: hidden; width:500px; height: 300px; background-color: #fff; box-shadow: 0 2px 4px 0 rgba(0,0,0,0.50); font-size:60px; font-family:'Open Sans'; color: #555;">
           <p style="line-height:150px; margin:0;">napkin</p>
           <p style="line-height:150px; margin:0;">viking</p>
           <div id="timer"></div>
@@ -48,4 +58,49 @@
       </div>
     </div>
 </body>
+<script>
+
+/* audio */
+
+var context = new AudioContext();
+var slideBuffer = null;
+
+var request = new XMLHttpRequest();
+request.open('GET', 'audio/slide.mp3', true);
+request.responseType = 'arraybuffer';
+
+// Decode asynchronously
+request.onload = function() {
+  context.decodeAudioData(request.response, function(buffer) {
+      slideBuffer = buffer;
+      ready();
+  }, onError);
+}
+request.send();
+
+var study_duration = 1000;
+
+function ready(){
+
+  var source = context.createBufferSource();
+  source.buffer = slideBuffer;
+  source.connect(context.destination);
+  source.start(0);
+
+  document.querySelector('#card').style.visibility = 'visible';
+  document.querySelector('#card').style.animation = "slide-in 0.5s forwards";
+
+  document.querySelector('#card').addEventListener('animationend', function(){
+    setTimeout(slideOut, study_duration);
+  }, {once: true});
+
+  function slideOut(){
+    document.querySelector('#card').style.animation = "slide-out 0.5s forwards";
+    source.start(0);
+  }
+
+}
+
+
+</script>
 </html>
