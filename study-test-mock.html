@@ -44,6 +44,11 @@
     100% {transform: translateX(-300%) }
   }
 
+  @keyframes glow {
+    0% { box-shadow: 0 0 40px 15px rgba(255,255,170, 0.85) }
+    100% { box-shadow: 0 0 40px 5px rgba(255,255,170, 0.85) }
+  }
+
   .quiz-input {
     font-size: 60px;
     font-family: 'Open Sans';
@@ -62,19 +67,42 @@
     font-size: 14px;
   }
 
+  .card {
+    position: absolute;
+    width:500px;
+    height: 300px;
+    font-size:60px;
+    font-family:'Open Sans';
+    color: #555;
+  }
+
+  .regular-card {
+    background-color: #fff;
+    box-shadow:
+      0 2px 4px 0 rgba(0,0,0,0.50),
+  }
+
+  .shiny-card {
+    background-color: rgb(255,255,110);
+    animation: glow 1s infinite linear alternate;
+    box-shadow:
+      0 2px 4px 0 rgba(0,0,0,0.50)
+
+  }
+
   </style>
 </head>
 <body>
     <div style="display: flex; margin: auto; flex: 1 1 100%; width: 100%;">
       <div style="text-align:center; margin:auto;">
         <div id="card-holder" style="width:500px; height: 350px; position: relative;">
-          <div id="card" style="position:absolute; visibility: hidden; width:500px; height: 300px; background-color: #fff; box-shadow: 0 2px 4px 0 rgba(0,0,0,0.50); font-size:60px; font-family:'Open Sans'; color: #555;">
+          <div id="card" class="card shiny-card">
             <p style="line-height:150px; margin:0;">napkin</p>
             <input type="text" class="quiz-input"></input>
             <p class="quiz-subtext">Type a question mark (?) if you can't remember.</p>
             <div id="timer"></div>
           </div>
-          <div id="card-next" style="position: absolute; visibility: hidden; width:500px; height: 300px; background-color: #fff; box-shadow: 0 2px 4px 0 rgba(0,0,0,0.50); font-size:60px; font-family:'Open Sans'; color: #555;">
+          <div id="card-next" class="card regular-card" style="visibility:hidden;">
             <p style="line-height:150px; margin:0;">monarch</p>
             <input type="text" class="quiz-input"></input>
             <p class="quiz-subtext">Type a question mark (?) if you can't remember.</p>
@@ -119,18 +147,17 @@ function ready(){
   var sourceIn = context.createBufferSource();
   sourceIn.buffer = audioBuffers.in;
   sourceIn.connect(context.destination);
-  sourceIn.start(0);
+  //sourceIn.start(0);
 
   var sourceIn2 = context.createBufferSource();
   sourceIn2.buffer = audioBuffers.in;
   sourceIn2.connect(context.destination);
 
-  document.querySelector('#card').style.visibility = 'visible';
-  document.querySelector('#card').style.animation = "slide-in 0.5s ease-out forwards";
-
-  document.querySelector('#card').addEventListener('animationend', function(){
-    setTimeout(slideOut, study_duration);
-  }, {once: true});
+  document.querySelector('#card .quiz-input').addEventListener('keyup', function(e){
+    if(e.key == 'Enter'){
+      slideOut();
+    }
+  });
 
   function slideOut(){
     document.querySelector('#card').style.animation = "slide-out 0.5s forwards";
