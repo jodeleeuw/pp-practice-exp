@@ -69,7 +69,7 @@
 
   .card {
     position: absolute;
-    width:500px;
+    width: 500px;
     height: 300px;
     font-size:60px;
     font-family:'Open Sans';
@@ -77,17 +77,22 @@
   }
 
   .regular-card {
+    position: relative;
+    width: 500px;
+    height: 300px;
     background-color: #fff;
     box-shadow:
-      0 2px 4px 0 rgba(0,0,0,0.50),
+      0 2px 4px 0 rgba(0,0,0,0.50)
   }
 
   .shiny-card {
-    background-color: rgb(255,255,110);
+    position: relative;
+    width: 500px;
+    height: 300px;
+    background: linear-gradient(225deg, #fefcea 0%, #f1da36 100%);
     animation: glow 1s infinite linear alternate;
     box-shadow:
       0 2px 4px 0 rgba(0,0,0,0.50)
-
   }
 
   </style>
@@ -96,17 +101,19 @@
     <div style="display: flex; margin: auto; flex: 1 1 100%; width: 100%;">
       <div style="text-align:center; margin:auto;">
         <div id="card-holder" style="width:500px; height: 350px; position: relative;">
-          <div id="card" class="card shiny-card">
-            <p style="line-height:150px; margin:0;">napkin</p>
-            <input type="text" class="quiz-input"></input>
-            <p class="quiz-subtext">Type a question mark (?) if you can't remember.</p>
-            <div id="timer"></div>
+          <div id="card" class="card">
+            <div class="shiny-card">
+              <p style="line-height:150px; margin:0;">napkin</p>
+              <input type="text" class="quiz-input"></input>
+              <p class="quiz-subtext">Type a question mark (?) if you can't remember.</p>
+            </div>
           </div>
-          <div id="card-next" class="card regular-card" style="visibility:hidden;">
-            <p style="line-height:150px; margin:0;">monarch</p>
-            <input type="text" class="quiz-input"></input>
-            <p class="quiz-subtext">Type a question mark (?) if you can't remember.</p>
-            <div id="timer"></div>
+          <div id="card-next" class="card" style="visibility:hidden;">
+            <div class="regular-card">
+              <p style="line-height:150px; margin:0;">monarch</p>
+              <input type="text" class="quiz-input"></input>
+              <p class="quiz-subtext">Type a question mark (?) if you can't remember.</p>
+            </div>
           </div>
           <p id="sub" style="font-size: 18px; font-weight: bold; color: white; margin: 0; padding-top: 320px">1 of 36</p>
         </div>
