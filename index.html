@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <script src="jspsych-6.0.3/jspsych.js"></script>
+  <script src="custom_plugins/jspsych-memory-quiz.js"></script>
+  <link rel="stylesheet" type="text/css" href="jspsych-6.0.3/css/jspsych.css"></link>
+  <style>
+  body {
+    background: repeating-linear-gradient(
+      90deg,
+      hsla(232, 41%, 56%, 1),
+      hsla(232, 41%, 56%, 1) 3px,
+      hsla(232, 41%, 60%, 1) 3px,
+      hsla(232, 41%, 60%, 1) 18px
+    );
+  }
+
+  @import url(https://fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,400,700);
+  </style>
+</head>
+<body>
+</body>
+<script>
+
+var trial = {
+  type: 'memory-quiz',
+  cue: 'viking',
+  target: 'napkin',
+  display: 'pair',
+  shiny: true
+}
+
+var trial2 = {
+  type: 'memory-quiz',
+  cue: 'monarch',
+  target: 'violin',
+  display: 'pair',
+  shiny: false
+}
+
+jsPsych.init({
+  timeline: [trial, trial2]
+})
+
+</script>
+</html>
