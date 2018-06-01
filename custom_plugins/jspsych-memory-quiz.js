@@ -52,14 +52,24 @@ jsPsych.plugins["memory-quiz"] = (function() {
     }
     html += '</div>';
     html += '</div>';
-    html += '<div id="card-next" class="card" style="visibility:hidden;">';
-    html += '<div class="regular-card">';
-    html += '<p style="line-height:150px; margin:0;">monarch</p>';
-    html += '<input type="text" class="quiz-input"></input>';
-    html += '<p class="quiz-subtext">Type a question mark (?) if you can\'t remember.</p>';
-    html += '</div>';
-    html += '</div>';
-    html += '<p id="sub" style="font-size: 18px; font-weight: bold; color: white; margin: 0; padding-top: 320px">1 of 36</p>';
+    if(trial.question_number < trial.total_questions){
+      html += '<div id="card-next" class="card" style="visibility:hidden;">';
+      if(trial.next_shiny){
+        html += '<div class="shiny-card">';
+      } else {
+        html += '<div class="regular-card">';
+      }
+      html += '<p style="line-height:150px; margin:0;">'+trial.next_cue+'</p>';
+      if(trial.next_display == "pair"){
+        html += '<p style="line-height:150px; margin:0;">'+trial.next_target+'</p>';
+      } else if(trial.next_display == "test") {
+        html += '<input type="text" class="quiz-input"></input>';
+        html += '<p class="quiz-subtext">Type a question mark (?) if you can\'t remember.</p>';
+      }
+      html += '</div>';
+      html += '</div>';
+    }
+    html += '<p id="sub" style="font-size: 18px; font-weight: bold; color: white; margin: 0; padding-top: 320px">'+trial.question_number+' of '+trial.total_questions+'</p>';
     html += '</div>';
     html += '</div>';
 
@@ -86,11 +96,13 @@ jsPsych.plugins["memory-quiz"] = (function() {
     }
 
     function slide_out(){
-      document.querySelector('#card-next').addEventListener('animationend', end_trial);
+      document.querySelector('#card').addEventListener('animationend', end_trial);
 
       document.querySelector('#card').style.animation = "slide-out 0.5s forwards";
-      document.querySelector('#card-next').style.visibility = 'visible';
-      document.querySelector('#card-next').style.animation = "slide-in 0.5s ease-out forwards";
+      if(trial.question_number < trial.total_questions){
+        document.querySelector('#card-next').style.visibility = 'visible';
+        document.querySelector('#card-next').style.animation = "slide-in 0.5s ease-out forwards";
+      }
     }
 
     function end_trial(){

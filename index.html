@@ -4,6 +4,7 @@
   <script src="jspsych-6.0.3/jspsych.js"></script>
   <script src="custom_plugins/jspsych-memory-quiz.js"></script>
   <link rel="stylesheet" type="text/css" href="jspsych-6.0.3/css/jspsych.css"></link>
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
   <style>
   body {
     background: repeating-linear-gradient(
@@ -14,8 +15,6 @@
       hsla(232, 41%, 60%, 1) 18px
     );
   }
-
-  @import url(https://fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,400,700);
   </style>
 </head>
 <body>
@@ -28,7 +27,13 @@ var trial = {
   target: 'napkin',
   display: 'pair',
   study_duration: 1000,
-  shiny: true
+  shiny: true,
+  question_number: 1,
+  total_questions: 2,
+  next_cue: 'monarch',
+  next_target: 'violin',
+  next_display: 'test',
+  next_shiny: false
 }
 
 var trial2 = {
@@ -36,7 +41,9 @@ var trial2 = {
   cue: 'monarch',
   target: 'violin',
   display: 'test',
-  shiny: false
+  shiny: false,
+  question_number: 2,
+  total_questions: 2
 }
 
 jsPsych.init({
