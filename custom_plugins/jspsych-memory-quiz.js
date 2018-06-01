@@ -44,8 +44,12 @@ jsPsych.plugins["memory-quiz"] = (function() {
       html += '<div class="regular-card">';
     }
     html += '<p style="line-height:150px; margin:0;">'+trial.cue+'</p>';
-    html += '<input type="text" class="quiz-input"></input>';
-    html += '<p class="quiz-subtext">Type a question mark (?) if you can\'t remember.</p>';
+    if(trial.display == "pair"){
+      html += '<p style="line-height:150px; margin:0;">'+trial.target+'</p>';
+    } else if(trial.display == "test") {
+      html += '<input type="text" class="quiz-input"></input>';
+      html += '<p class="quiz-subtext">Type a question mark (?) if you can\'t remember.</p>';
+    }
     html += '</div>';
     html += '</div>';
     html += '<div id="card-next" class="card" style="visibility:hidden;">';
@@ -61,17 +65,27 @@ jsPsych.plugins["memory-quiz"] = (function() {
 
     display_element.innerHTML = html;
 
-    display_element.querySelector('.quiz-input').focus();
+    if(trial.display == 'test'){
+      display_element.querySelector('.quiz-input').focus();
 
-    jsPsych.pluginAPI.getKeyboardResponse({
-      callback_function: after_response,
-      valid_responses: [13],
-      rt_method: 'date',
-      persist: false,
-      allow_held_key: false
-    });
+      jsPsych.pluginAPI.getKeyboardResponse({
+        callback_function: after_response,
+        valid_responses: [13],
+        rt_method: 'date',
+        persist: false,
+        allow_held_key: false
+      });
+    } else if(trial.display == 'pair') {
+      jsPsych.pluginAPI.setTimeout(function(){
+        slide_out();
+      }, trial.study_duration)
+    }
 
     function after_response(info){
+      slide_out();
+    }
+
+    function slide_out(){
       document.querySelector('#card-next').addEventListener('animationend', end_trial);
 
       document.querySelector('#card').style.animation = "slide-out 0.5s forwards";
