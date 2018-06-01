@@ -2,6 +2,7 @@
 <html>
 <head>
   <script src="jspsych-6.0.3/jspsych.js"></script>
+  <script src="jspsych-6.0.3/plugins/jspsych-html-button-response.js"></script>
   <script src="custom_plugins/jspsych-memory-quiz.js"></script>
   <link rel="stylesheet" type="text/css" href="jspsych-6.0.3/css/jspsych.css"></link>
   <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
@@ -20,6 +21,85 @@
 <body>
 </body>
 <script>
+
+var study_duration = 1000;
+
+var word_pairs = [
+  {cue:"money", target: "velvet"},
+  {cue:"robber", target: "stairway"},
+  {cue:"college", target: "pest"},
+  {cue:"body", target: "stripe"},
+  {cue:"hand", target: "holiday"},
+  {cue:"glacier", target: "cylinder"}
+]
+
+var timeline = [];
+
+var pre_exposure = {
+  type: 'html-button-response',
+  stimulus: 'Exposure phase',
+  choices: ["Got it. Let's go!"]
+}
+
+timeline.push(pre_exposure);
+
+var exposure_phase_stimuli = jsPsych.randomization.shuffle(jsPsych.utils.deepCopy(word_pairs));
+
+for(var i=0; i<exposure_phase_stimuli.length; i++){
+  timeline.push({
+    type: 'memory-quiz',
+    cue: exposure_phase_stimuli[i].cue,
+    target: exposure_phase_stimuli[i].target,
+    display: 'pair',
+    study_duration: study_duration,
+    shiny: false,
+    question_number: i+1,
+    total_questions: exposure_phase_stimuli.length,
+    next_cue: i < exposure_phase_stimuli.length-1 ? exposure_phase_stimuli[i+1].cue : '',
+    next_target: i < exposure_phase_stimuli.length-1 ? exposure_phase_stimuli[i+1].target : '',
+    next_display: 'pair',
+    next_shiny: false
+  })
+}
+
+var pre_study = {
+  type: 'html-button-response',
+  stimulus: 'Study phase',
+  choices: ["Got it. Let's go!"]
+}
+
+timeline.push(pre_study);
+
+var study_phase_stimuli = jsPsych.randomization.shuffle(jsPsych.utils.deepCopy(word_pairs));
+var number_test = 2;
+var precious_practice = true;
+for(var i=0; i<study_phase_stimuli.length; i++){
+  if(i < number_test){
+    study_phase_stimuli[i].display = 'test'
+    study_phase_stimuli[i].shiny = precious_practice;
+  } else {
+    study_phase_stimuli[i].display = 'pair'
+    study_phase_stimuli[i].shiny = !precious_practice;
+  }
+}
+study_phase_stimuli = jsPsych.randomization.shuffle(study_phase_stimuli);
+
+for(var i=0; i<study_phase_stimuli.length; i++){
+  timeline.push({
+    type: 'memory-quiz',
+    cue: study_phase_stimuli[i].cue,
+    target: study_phase_stimuli[i].target,
+    display: study_phase_stimuli[i].display,
+    study_duration: study_duration,
+    shiny: study_phase_stimuli[i].shiny,
+    question_number: i+1,
+    total_questions: study_phase_stimuli.length,
+    next_cue: i < study_phase_stimuli.length-1 ? study_phase_stimuli[i+1].cue : '',
+    next_target: i < study_phase_stimuli.length-1 ? study_phase_stimuli[i+1].target : '',
+    next_display: i < study_phase_stimuli.length-1 ? study_phase_stimuli[i+1].display : '',
+    next_shiny: i < study_phase_stimuli.length-1 ? study_phase_stimuli[i+1].shiny : false
+  })
+}
 
 var trial = {
   type: 'memory-quiz',
@@ -47,7 +127,7 @@ var trial2 = {
 }
 
 jsPsych.init({
-  timeline: [trial, trial2]
+  timeline: timeline
 })
 
 </script>

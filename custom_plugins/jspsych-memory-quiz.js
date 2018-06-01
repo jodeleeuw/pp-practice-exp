@@ -100,8 +100,11 @@ jsPsych.plugins["memory-quiz"] = (function() {
 
       document.querySelector('#card').style.animation = "slide-out 0.5s forwards";
       if(trial.question_number < trial.total_questions){
+        document.querySelector('#sub').innerHTML = (trial.question_number+1) + ' of ' + trial.total_questions;
         document.querySelector('#card-next').style.visibility = 'visible';
         document.querySelector('#card-next').style.animation = "slide-in 0.5s ease-out forwards";
+      } else {
+        document.querySelector('#sub').innerHTML = "";
       }
     }
 
