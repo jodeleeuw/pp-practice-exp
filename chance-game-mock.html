@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+
+  @import url(https://fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,400,700);
+
+  html {
+    height: 100%;
+    width: 100%;
+    font-family: 'Open Sans';
+  }
+  body {
+    margin:0;
+    width: 100%;
+    height: 100%;
+    background: repeating-linear-gradient(
+      90deg,
+      hsla(232, 41%, 56%, 1),
+      hsla(232, 41%, 56%, 1) 3px,
+      hsla(232, 41%, 60%, 1) 3px,
+      hsla(232, 41%, 60%, 1) 18px
+    );
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+
+  .game-cell {
+    display: inline-block;
+    margin: 20px;
+    width: 150px;
+    height: 150px;
+    background-color: white;
+    box-shadow: 0 2px 4px 0 rgb(0,0,0,0.5);
+  }
+
+  </style>
+</head>
+<body>
+    <div style="display: flex; margin: auto; flex: 1 1 100%; width: 100%;">
+      <div style="text-align:center; margin:auto;">
+        <div id="game-holder" style="width:1000px; height: 500px; display: table;">
+          <div id="top-row" style="display: table-row">
+            <div class="game-cell"></div>
+            <div class="game-cell"></div>
+            <div class="game-cell"></div>
+            <div class="game-cell"></div>
+            <div class="game-cell"></div>
+          </div>
+          <div id="middle-row" style="display: table-row">
+            <div class="game-cell"></div>
+            <div class="game-cell"></div>
+            <div class="game-cell"></div>
+            <div class="game-cell"></div>
+            <div class="game-cell"></div>
+          </div>
+          <div id="bottom-row" style="display: table-row">
+            <div class="game-cell"></div>
+            <div class="game-cell"></div>
+            <div class="game-cell"></div>
+            <div class="game-cell"></div>
+            <div class="game-cell"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+</body>
+<script>
+
+</script>
+</html>
