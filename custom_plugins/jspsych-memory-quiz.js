@@ -17,6 +17,10 @@ jsPsych.plugins["memory-quiz"] = (function() {
         type: jsPsych.plugins.parameterType.STRING, // BOOL, STRING, INT, FLOAT, FUNCTION, KEYCODE, SELECT, HTML_STRING, IMAGE, AUDIO, VIDEO, OBJECT, COMPLEX
         default: undefined
       },
+      slide_in: {
+        type: jsPsych.plugins.parameterType.BOOL,
+        default: false
+      }
     }
   }
 
@@ -37,7 +41,11 @@ jsPsych.plugins["memory-quiz"] = (function() {
 
     var html = css;
     html += '<div id="card-holder" style="width:500px; height: 350px; position: relative;">';
-    html += '<div id="card" class="card">';
+    html += '<div id="card" class="card"';
+    if(trial.slide_in){
+      html += ' style="animation: slide-in 0.5s forwards;"'
+    }
+    html += '>';
     if(trial.shiny){
       html += '<div class="shiny-card">';
     } else {
@@ -86,9 +94,8 @@ jsPsych.plugins["memory-quiz"] = (function() {
         allow_held_key: false
       });
     } else if(trial.display == 'pair') {
-      jsPsych.pluginAPI.setTimeout(function(){
-        slide_out();
-      }, trial.study_duration)
+      var duration = trial.slide_in ? trial.study_duration + 500 : trial.study_duration;
+      jsPsych.pluginAPI.setTimeout(slide_out, duration)
     }
 
     function after_response(info){

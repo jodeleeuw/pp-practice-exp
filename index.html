@@ -71,6 +71,7 @@ for(var i=0; i<exposure_phase_stimuli.length; i++){
     display: 'pair',
     study_duration: study_duration,
     shiny: false,
+    slide_in: i == 0 ? true : false,
     question_number: i+1,
     total_questions: exposure_phase_stimuli.length,
     next_cue: i < exposure_phase_stimuli.length-1 ? exposure_phase_stimuli[i+1].cue : '',
@@ -112,6 +113,7 @@ for(var i=0; i<study_phase_stimuli.length; i++){
     display: study_phase_stimuli[i].display,
     study_duration: study_duration,
     shiny: study_phase_stimuli[i].shiny,
+    slide_in: i == 0 ? true : false,
     question_number: i+1,
     total_questions: study_phase_stimuli.length,
     next_cue: i < study_phase_stimuli.length-1 ? study_phase_stimuli[i+1].cue : '',
@@ -121,30 +123,15 @@ for(var i=0; i<study_phase_stimuli.length; i++){
   })
 }
 
-var trial = {
-  type: 'memory-quiz',
-  cue: 'viking',
-  target: 'napkin',
-  display: 'pair',
-  study_duration: 1000,
-  shiny: true,
-  question_number: 1,
-  total_questions: 2,
-  next_cue: 'monarch',
-  next_target: 'violin',
-  next_display: 'test',
-  next_shiny: false
+var post_study = {
+  type: 'dialog',
+  stimulus: '<p>Final dialog. Come back tomorrow!</p>',
+  button_html: '<button class="dialog-btn">%choice%</button>',
+  choices: ["Bye!"],
+  post_trial_gap: 1000
 }
 
-var trial2 = {
-  type: 'memory-quiz',
-  cue: 'monarch',
-  target: 'violin',
-  display: 'test',
-  shiny: false,
-  question_number: 2,
-  total_questions: 2
-}
+timeline.push(post_study);
 
 jsPsych.init({
   timeline: timeline
