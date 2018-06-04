@@ -81,8 +81,13 @@ jsPsych.plugins["dialog"] = (function() {
 
   plugin.trial = function(display_element, trial) {
 
-    // display stimulus
-    var html = '<div id="jspsych-dialog-container" style="background: white; max-width: '+trial.max_width+'px; padding: 24px; box-shadow: 0 2px 4px 0 rgba(0,0,0,0.50)">'; 
+    var html = '<style>';
+    html += '@keyframes pop-in { 0% { transform:scale(0); } 75% { transform:scale(1.1); } 100% { transform:scale(1);} }';
+    html += '@keyframes pop-out { 0% { transform:scale(1); } 100% { transform:scale(0);} }';
+    html += '</style>';
+
+
+    html += '<div id="jspsych-dialog-container" style="animation: pop-in 0.2s linear forwards; background: white; max-width: '+trial.max_width+'px; padding: 24px; box-shadow: 0 2px 4px 0 rgba(0,0,0,0.50)">'; 
     html += '<div id="jspsych-dialog-stimulus">'+trial.stimulus+'</div>';
 
     //display buttons
@@ -135,10 +140,6 @@ jsPsych.plugins["dialog"] = (function() {
       response.button = choice;
       response.rt = rt;
 
-      // after a valid response, the stimulus will have the CSS class 'responded'
-      // which can be used to provide visual feedback that a response was recorded
-      display_element.querySelector('#jspsych-dialog-stimulus').className += ' responded';
-
       // disable all the buttons after a response
       var btns = document.querySelectorAll('.jspsych-dialog-button button');
       for(var i=0; i<btns.length; i++){
@@ -146,9 +147,9 @@ jsPsych.plugins["dialog"] = (function() {
         btns[i].setAttribute('disabled', 'disabled');
       }
 
-      if (trial.response_ends_trial) {
-        end_trial();
-      }
+      document.querySelector('#jspsych-dialog-container').addEventListener('animationend', end_trial);
+
+      document.querySelector('#jspsych-dialog-container').style.animation = "pop-out 0.125s linear forwards";
     };
 
     // function to end trial when it is time

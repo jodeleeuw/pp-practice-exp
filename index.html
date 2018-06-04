@@ -8,6 +8,7 @@
   <link rel="stylesheet" type="text/css" href="jspsych-6.0.3/css/jspsych.css"></link>
   <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
   <style>
+
   body {
     background: repeating-linear-gradient(
       90deg,
@@ -54,7 +55,8 @@ var pre_exposure = {
   type: 'dialog',
   stimulus: '<p>This the dialog that starts the first exposure to the word pairs. Study each pair for testing later.</p>',
   button_html: '<button class="dialog-btn">%choice%</button>',
-  choices: ["Got it. Let's go!"]
+  choices: ["Got it. Let's go!"],
+  post_trial_gap: 1000
 }
 
 timeline.push(pre_exposure);
@@ -80,8 +82,10 @@ for(var i=0; i<exposure_phase_stimuli.length; i++){
 
 var pre_study = {
   type: 'dialog',
-  stimulus: 'Study phase',
-  choices: ["Got it. Let's go!"]
+  stimulus: '<p>This the dialog that starts the practice phase. Practice each pair for testing later.</p>',
+  button_html: '<button class="dialog-btn">%choice%</button>',
+  choices: ["Got it. Let's go!"],
+  post_trial_gap: 1000
 }
 
 timeline.push(pre_study);
