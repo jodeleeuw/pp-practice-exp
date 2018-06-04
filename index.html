@@ -4,6 +4,7 @@
   <script src="jspsych-6.0.3/jspsych.js"></script>
   <script src="jspsych-6.0.3/plugins/jspsych-html-button-response.js"></script>
   <script src="custom_plugins/jspsych-memory-quiz.js"></script>
+  <script src="custom_plugins/jspsych-dialog.js"></script>
   <link rel="stylesheet" type="text/css" href="jspsych-6.0.3/css/jspsych.css"></link>
   <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
   <style>
@@ -15,6 +16,20 @@
       hsla(232, 41%, 60%, 1) 3px,
       hsla(232, 41%, 60%, 1) 18px
     );
+  }
+
+  .dialog-btn {
+    background: #FFA500;
+    color: white;
+    border-radius: 4px;
+    padding: 12px 24px;
+    border-style: none;
+    cursor: pointer;
+    /*box-shadow: 0 1px 1px 0 rgba(0,0,0,0.5);*/
+  }
+
+  .dialog-btn:hover {
+    background: #FF8C00;
   }
   </style>
 </head>
@@ -36,8 +51,9 @@ var word_pairs = [
 var timeline = [];
 
 var pre_exposure = {
-  type: 'html-button-response',
-  stimulus: 'Exposure phase',
+  type: 'dialog',
+  stimulus: '<p>This the dialog that starts the first exposure to the word pairs. Study each pair for testing later.</p>',
+  button_html: '<button class="dialog-btn">%choice%</button>',
   choices: ["Got it. Let's go!"]
 }
 
@@ -63,7 +79,7 @@ for(var i=0; i<exposure_phase_stimuli.length; i++){
 }
 
 var pre_study = {
-  type: 'html-button-response',
+  type: 'dialog',
   stimulus: 'Study phase',
   choices: ["Got it. Let's go!"]
 }
