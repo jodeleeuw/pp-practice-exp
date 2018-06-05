@@ -34,6 +34,29 @@
     height: 150px;
     background-color: white;
     box-shadow: 0 2px 4px 0 rgb(0,0,0,0.5);
+    text-align: center;
+    line-height: 150px;
+    font-size: 60px;
+  }
+
+  .middle-cell {
+    display: inline-block;
+    margin: 20px;
+    width: 530px;
+    height: 150px;
+    line-height: 150px;
+    font-size: 60px;
+  }
+
+  #stop {
+    border-style: none;
+    background-color:orange;
+    font-size: 36px;
+    padding: 36px 72px;
+    border-radius: 12px;
+    color:white;
+    box-shadow: 0 2px 4px 0 rgb(0,0,0,0.5);
+    cursor: pointer;
   }
 
   </style>
@@ -43,31 +66,60 @@
       <div style="text-align:center; margin:auto;">
         <div id="game-holder" style="width:1000px; height: 500px; display: table;">
           <div id="top-row" style="display: table-row">
-            <div class="game-cell"></div>
-            <div class="game-cell"></div>
-            <div class="game-cell"></div>
-            <div class="game-cell"></div>
-            <div class="game-cell"></div>
+            <div class="game-cell" id="game-1">+1</div>
+            <div class="game-cell" id="game-2">+4</div>
+            <div class="game-cell" id="game-3">-2</div>
+            <div class="game-cell" id="game-4">+2</div>
+            <div class="game-cell" id="game-5">-1</div>
           </div>
           <div id="middle-row" style="display: table-row">
-            <div class="game-cell"></div>
-            <div class="game-cell"></div>
-            <div class="game-cell"></div>
-            <div class="game-cell"></div>
-            <div class="game-cell"></div>
+            <div class="game-cell" id="game-12">+3</div>
+            <div class="middle-cell"><button id="stop">STOP</button></div>
+            <div class="game-cell" id="game-6">+1</div>
           </div>
           <div id="bottom-row" style="display: table-row">
-            <div class="game-cell"></div>
-            <div class="game-cell"></div>
-            <div class="game-cell"></div>
-            <div class="game-cell"></div>
-            <div class="game-cell"></div>
+            <div class="game-cell" id="game-11">-1</div>
+            <div class="game-cell" id="game-10">-2</div>
+            <div class="game-cell" id="game-9">+2</div>
+            <div class="game-cell" id="game-8">+1</div>
+            <div class="game-cell" id="game-7">-3</div>
           </div>
         </div>
       </div>
     </div>
 </body>
 <script>
+
+var current_cell = Math.ceil(Math.random()*12);
+var animation_handler = null;
+
+function start_animation_around(){
+  document.querySelector('#game-'+current_cell).style.backgroundColor = 'orange';
+  animation_handler = setInterval(function(){
+    document.querySelector('#game-'+current_cell).style.backgroundColor = 'white';
+    current_cell++;
+    if(current_cell == 13) { current_cell = 1; }
+    document.querySelector('#game-'+current_cell).style.backgroundColor = 'orange';
+  }, 125);
+}
+
+function start_animation_random(){
+  animation_handler = setInterval(function(){
+    document.querySelector('#game-'+current_cell).style.backgroundColor = 'white';
+    var next_cell = Math.ceil(Math.random()*12);
+    while(next_cell == current_cell){
+      next_cell = Math.ceil(Math.random()*12);
+    }
+    current_cell = next_cell;
+    document.querySelector('#game-'+current_cell).style.backgroundColor = 'orange';
+  }, 200);
+}
+
+start_animation_random();
+
+function stop_animation(target){
+
+}
 
 </script>
 </html>
