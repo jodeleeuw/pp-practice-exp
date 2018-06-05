@@ -64,6 +64,14 @@
     transform: translate(0, 1px);
   }
 
+  @keyframes blink {
+    0% {background-color: orange; }
+    49% {background-color: orange; }
+    50% { background-color: white; }
+    99% { background-color: white; }
+    100% {background-color: orange; }
+  }
+
   </style>
 </head>
 <body>
@@ -103,17 +111,16 @@ function start_animation_random(){
   animation_handler = setInterval(function(){
     document.querySelector('#game-'+current_cell).style.backgroundColor = 'white';
     if(target !== null){
-      var next_cell = target;
-      clearInterval(animation_handler);
-      // blink the final square here.
+      document.querySelector('#game-'+target).style.backgroundColor = 'orange';
+      document.querySelector('#game-'+target).style.animation = 'blink 0.125s 6';
     } else {
       var next_cell = Math.ceil(Math.random()*12);
       while(next_cell == current_cell){
         next_cell = Math.ceil(Math.random()*12);
       }
+      current_cell = next_cell;
+      document.querySelector('#game-'+current_cell).style.backgroundColor = 'orange';
     }
-    current_cell = next_cell;
-    document.querySelector('#game-'+current_cell).style.backgroundColor = 'orange';
   }, 200);
 }
 
