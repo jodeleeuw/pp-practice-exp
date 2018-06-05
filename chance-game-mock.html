@@ -92,23 +92,20 @@
 
 var current_cell = Math.ceil(Math.random()*12);
 var animation_handler = null;
-
-function start_animation_around(){
-  document.querySelector('#game-'+current_cell).style.backgroundColor = 'orange';
-  animation_handler = setInterval(function(){
-    document.querySelector('#game-'+current_cell).style.backgroundColor = 'white';
-    current_cell++;
-    if(current_cell == 13) { current_cell = 1; }
-    document.querySelector('#game-'+current_cell).style.backgroundColor = 'orange';
-  }, 125);
-}
+var target = null;
 
 function start_animation_random(){
   animation_handler = setInterval(function(){
     document.querySelector('#game-'+current_cell).style.backgroundColor = 'white';
-    var next_cell = Math.ceil(Math.random()*12);
-    while(next_cell == current_cell){
-      next_cell = Math.ceil(Math.random()*12);
+    if(target !== null){
+      var next_cell = target;
+      clearInterval(animation_handler);
+      // blink the final square here.
+    } else {
+      var next_cell = Math.ceil(Math.random()*12);
+      while(next_cell == current_cell){
+        next_cell = Math.ceil(Math.random()*12);
+      }
     }
     current_cell = next_cell;
     document.querySelector('#game-'+current_cell).style.backgroundColor = 'orange';
@@ -117,9 +114,11 @@ function start_animation_random(){
 
 start_animation_random();
 
-function stop_animation(target){
-
+function stop_animation(t){
+  target = t;
 }
+
+document.querySelector('#stop').addEventListener('click', function(){ stop_animation(2); });
 
 </script>
 </html>
