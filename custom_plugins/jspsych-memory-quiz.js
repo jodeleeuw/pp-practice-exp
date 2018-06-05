@@ -100,8 +100,14 @@ jsPsych.plugins["memory-quiz"] = (function() {
     display_element.innerHTML = html;
 
     if(trial.display == 'test'){
-      display_element.querySelector('.quiz-input').focus();
-
+      if(trial.slide_in){
+        display_element.querySelector('#card').addEventListener('animationend', function(){
+          display_element.querySelector('.quiz-input').focus();
+        })
+      } else {
+        display_element.querySelector('.quiz-input').focus();
+      }
+      
       jsPsych.pluginAPI.getKeyboardResponse({
         callback_function: after_response,
         valid_responses: [13],
