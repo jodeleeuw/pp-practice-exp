@@ -78,6 +78,7 @@ for(var i=0; i<test_phase_stimuli.length; i++){
     slide_in: i == 0 ? true : false,
     show_feedback: true,
     correct_sound: 'audio/correct.mp3',
+    incorrect_sound: 'audio/incorrect.mp3',
     question_number: i+1,
     total_questions: test_phase_stimuli.length,
     next_cue: i < test_phase_stimuli.length-1 ? test_phase_stimuli[i+1].cue : '',
@@ -89,7 +90,11 @@ for(var i=0; i<test_phase_stimuli.length; i++){
 
 var post_test = {
   type: 'dialog',
-  stimulus: '<p>Final dialog. All done!</p>',
+  stimulus: function(){
+    var numCorrect = jsPsych.data.get().filter({trial_type: 'memory-quiz', correct: true}).count();
+    var numTotal = jsPsych.data.get().filter({trial_type: 'memory-quiz'}).count();
+    return '<p>You remembered '+numCorrect+' out of '+numTotal+'.</p><p>All done!</p>'
+  },
   button_html: '<button class="dialog-btn">%choice%</button>',
   choices: ["Bye!"],
   post_trial_gap: 1000
@@ -98,7 +103,8 @@ var post_test = {
 timeline.push(post_test);
 
 jsPsych.init({
-  timeline: timeline
+  timeline: timeline,
+  use_webaudio: false
 })
 
 </script>

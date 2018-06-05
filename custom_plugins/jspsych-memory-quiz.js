@@ -7,6 +7,7 @@ jsPsych.plugins["memory-quiz"] = (function() {
   var plugin = {};
 
   jsPsych.pluginAPI.registerPreload('memory-quiz', 'correct_sound', 'audio');
+  jsPsych.pluginAPI.registerPreload('memory-quiz', 'incorrect_sound', 'audio');
 
   plugin.info = {
     name: "memory-quiz",
@@ -26,11 +27,20 @@ jsPsych.plugins["memory-quiz"] = (function() {
       correct_sound: {
         type: jsPsych.plugins.parameterType.AUDIO,
         default: null,
+      },
+      incorrect_sound: {
+        type: jsPsych.plugins.parameterType.AUDIO,
+        default: null,
       }
     }
   }
 
   plugin.trial = function(display_element, trial) {
+
+    var trial_data = {}
+    trial_data.cue = trial.cue;
+    trial_data.target = trial.target;
+    trial_data.display_type = trial.display;
 
     var css = "<style id='trial-css'>";
     css += "@keyframes slide-in { 0% {transform: translateX(300%)} 100% {transform: translateX(0%)} }";
@@ -108,21 +118,25 @@ jsPsych.plugins["memory-quiz"] = (function() {
       display_element.querySelector('.quiz-input').blur();
       var response = display_element.querySelector('.quiz-input').value.toLowerCase();
       var correct = response == trial.target;
+      trial_data.response = response;
+      trial_data.correct = correct;
       if(trial.show_feedback){
         // audio
         var context = jsPsych.pluginAPI.audioContext();
+        var sound = correct ? trial.correct_sound : trial.incorrect_sound;
         if(context !== null){
           var source = context.createBufferSource();
-          source.buffer = jsPsych.pluginAPI.getAudioBuffer(trial.stimulus);
+          source.buffer = jsPsych.pluginAPI.getAudioBuffer(sound);
           source.connect(context.destination);
-          startTime = context.currentTime;
+          var startTime = context.currentTime;
           source.start(startTime);
         } else {
-          var audio = jsPsych.pluginAPI.getAudioBuffer(trial.stimulus);
+          var audio = jsPsych.pluginAPI.getAudioBuffer(sound);
           audio.currentTime = 0;
           audio.play();
         }
         display_element.querySelector('.quiz-input').style.color = correct ? '#26d923' : '#d92345';
+        display_element.querySelector('.quiz-input').style.borderColor = 'white';
         setTimeout(slide_out, 250);
       } else {
         slide_out();
@@ -145,11 +159,6 @@ jsPsych.plugins["memory-quiz"] = (function() {
     function end_trial(){
 
       display_element.innerHTML = '';
-
-      // data saving
-      var trial_data = {
-        parameter_name: 'parameter value'
-      };
 
       // end trial
       jsPsych.finishTrial(trial_data);
