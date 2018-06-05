@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <script src="jspsych-6.0.3/jspsych.js"></script>
+  <script src="jspsych-6.0.3/plugins/jspsych-html-button-response.js"></script>
+  <script src="custom_plugins/jspsych-memory-quiz.js"></script>
+  <script src="custom_plugins/jspsych-dialog.js"></script>
+  <link rel="stylesheet" type="text/css" href="jspsych-6.0.3/css/jspsych.css"></link>
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+  <style>
+
+  body {
+    background: repeating-linear-gradient(
+      90deg,
+      hsla(232, 41%, 56%, 1),
+      hsla(232, 41%, 56%, 1) 3px,
+      hsla(232, 41%, 60%, 1) 3px,
+      hsla(232, 41%, 60%, 1) 18px
+    );
+  }
+
+  .dialog-btn {
+    background: #FFA500;
+    color: white;
+    border-radius: 4px;
+    padding: 12px 24px;
+    border-style: none;
+    cursor: pointer;
+    /*box-shadow: 0 1px 1px 0 rgba(0,0,0,0.5);*/
+  }
+
+  .dialog-btn:hover {
+    background: #FF8C00;
+  }
+  </style>
+</head>
+<body>
+</body>
+<script>
+
+var study_duration = 1000;
+
+var word_pairs = [
+  {cue:"money", target: "velvet"},
+  {cue:"robber", target: "stairway"},
+  {cue:"college", target: "pest"},
+  {cue:"body", target: "stripe"},
+  {cue:"hand", target: "holiday"},
+  {cue:"glacier", target: "cylinder"}
+]
+
+var timeline = [];
+
+var pre_test = {
+  type: 'dialog',
+  stimulus: '<p style="font-size:24px; font-weight:bold;">Welcome back!</p>'+
+   '<p>Yesterday, you tried to learn 32 pairs of words, like "napkin - viking."<br>Today, you\'ll take a test on what you can remember.</p>'+
+   '<p>In the test, we\'ll show you the first item (napkin),<br>and you\'ll be asked to type in the second item (viking).</p>'+
+   '<p>We\'ll show you the items one at a time.<br>You won\'t be able to go backwards, so try your hardest to remember each pair when it is presented.</p>'+
+   '<p>Thank you and good luck!</p>',
+  button_html: '<button class="dialog-btn">%choice%</button>',
+  choices: ["Got it. Let's go!"],
+  post_trial_gap: 1000
+}
+
+timeline.push(pre_test);
+
+var test_phase_stimuli = jsPsych.randomization.shuffle(jsPsych.utils.deepCopy(word_pairs));
+
+for(var i=0; i<test_phase_stimuli.length; i++){
+  timeline.push({
+    type: 'memory-quiz',
+    cue: test_phase_stimuli[i].cue,
+    target: test_phase_stimuli[i].target,
+    display: 'test',
+    study_duration: study_duration,
+    shiny: false,
+    slide_in: i == 0 ? true : false,
+    show_feedback: true,
+    correct_sound: 'audio/correct.mp3',
+    question_number: i+1,
+    total_questions: test_phase_stimuli.length,
+    next_cue: i < test_phase_stimuli.length-1 ? test_phase_stimuli[i+1].cue : '',
+    next_target: i < test_phase_stimuli.length-1 ? test_phase_stimuli[i+1].target : '',
+    next_display: 'test',
+    next_shiny: false
+  })
+}
+
+var post_test = {
+  type: 'dialog',
+  stimulus: '<p>Final dialog. All done!</p>',
+  button_html: '<button class="dialog-btn">%choice%</button>',
+  choices: ["Bye!"],
+  post_trial_gap: 1000
+}
+
+timeline.push(post_test);
+
+jsPsych.init({
+  timeline: timeline
+})
+
+</script>
+</html>

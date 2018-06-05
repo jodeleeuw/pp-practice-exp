@@ -6,20 +6,26 @@ jsPsych.plugins["memory-quiz"] = (function() {
 
   var plugin = {};
 
+  jsPsych.pluginAPI.registerPreload('memory-quiz', 'correct_sound', 'audio');
+
   plugin.info = {
     name: "memory-quiz",
     parameters: {
       cue: {
         type: jsPsych.plugins.parameterType.STRING, // BOOL, STRING, INT, FLOAT, FUNCTION, KEYCODE, SELECT, HTML_STRING, IMAGE, AUDIO, VIDEO, OBJECT, COMPLEX
-        default: undefined
+        default: undefined,
       },
       target: {
         type: jsPsych.plugins.parameterType.STRING, // BOOL, STRING, INT, FLOAT, FUNCTION, KEYCODE, SELECT, HTML_STRING, IMAGE, AUDIO, VIDEO, OBJECT, COMPLEX
-        default: undefined
+        default: undefined,
       },
       slide_in: {
         type: jsPsych.plugins.parameterType.BOOL,
         default: false
+      },
+      correct_sound: {
+        type: jsPsych.plugins.parameterType.AUDIO,
+        default: null,
       }
     }
   }
@@ -99,7 +105,28 @@ jsPsych.plugins["memory-quiz"] = (function() {
     }
 
     function after_response(info){
-      slide_out();
+      display_element.querySelector('.quiz-input').blur();
+      var response = display_element.querySelector('.quiz-input').value.toLowerCase();
+      var correct = response == trial.target;
+      if(trial.show_feedback){
+        // audio
+        var context = jsPsych.pluginAPI.audioContext();
+        if(context !== null){
+          var source = context.createBufferSource();
+          source.buffer = jsPsych.pluginAPI.getAudioBuffer(trial.stimulus);
+          source.connect(context.destination);
+          startTime = context.currentTime;
+          source.start(startTime);
+        } else {
+          var audio = jsPsych.pluginAPI.getAudioBuffer(trial.stimulus);
+          audio.currentTime = 0;
+          audio.play();
+        }
+        display_element.querySelector('.quiz-input').style.color = correct ? '#26d923' : '#d92345';
+        setTimeout(slide_out, 250);
+      } else {
+        slide_out();
+      }
     }
 
     function slide_out(){
