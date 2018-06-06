@@ -32,6 +32,46 @@
   .dialog-btn:hover {
     background: #FF8C00;
   }
+
+  .mini-card {
+    color: #555;
+    font-size: 24px;
+    line-height: 45px;
+    width: 150px;
+    height: 90px;
+    margin: auto;
+    background-color: #fff;
+    box-shadow:
+      0 2px 4px 0 rgba(0,0,0,0.50)
+  }
+
+  .mini-shiny-card {
+    color: #555;
+    background: linear-gradient(225deg, #fefcea 0%, #f1da36 100%);
+    font-size: 24px;
+    line-height: 45px;
+    width: 150px;
+    height: 90px;
+    margin: auto;
+    background-color: #fff;
+    box-shadow:
+      0 2px 4px 0 rgba(0,0,0,0.50),
+      0 0 10px 5px rgba(255,255,170, 0.85)
+  }
+
+  .mini-card p, .mini-shiny-card p {
+    margin:0;
+  }
+
+  .mini-shiny-card input[type="text"], .mini-card input[type="text"] {
+    font-size: 24px;
+    font-family: 'Open Sans';
+    color: #555;
+    text-align: center;
+    width: 120px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+  }
   </style>
 </head>
 <body>
@@ -51,15 +91,36 @@ var word_pairs = [
 
 var timeline = [];
 
-var pre_exposure = {
+var pre_exposure_1 = {
   type: 'dialog',
-  stimulus: '<p>This the dialog that starts the first exposure to the word pairs. Study each pair for testing later.</p>',
+  stimulus: '<p style="font-size: 38px;">Welcome!</p>'+
+  '<p>You are about to participate in a memory experiment.</p>'+
+  '<p>Today, your job will be to learn 32 pairs of words, like "napkin - viking."<br>'+
+  'Tomorrow, you\'ll come back to take a test to see what you can remember.</p>',
   button_html: '<button class="dialog-btn">%choice%</button>',
-  choices: ["Got it. Let's go!"],
-  post_trial_gap: 1000
+  choices: ["Got it."],
+  post_trial_gap: 250,
 }
 
-timeline.push(pre_exposure);
+var pre_exposure_2 = {
+  type: 'dialog',
+  stimulus: '<p>For today\'s learning session there\'s going to be two parts:</p>'+
+  '<p>In the first part we\'ll show you all 32 pairs, one by one, for about 4 seconds each.<br>'+
+  'In the second part you\'ll restudy the pairs, sometimes by seeing a pair again, or sometimes by testing yourself.</p>',
+  button_html: '<button class="dialog-btn">%choice%</button>',
+  choices: ["Got it."],
+  post_trial_gap: 250,
+}
+
+var pre_exposure_3 = {
+  type: 'dialog',
+  stimulus: '<p>The first part will start on the next screen. Your goal is to remember as many of these pairs as possible.</p>',
+  button_html: '<button class="dialog-btn">%choice%</button>',
+  choices: ["I'm ready! Let's go."],
+  post_trial_gap: 250,
+}
+
+timeline.push(pre_exposure_1, pre_exposure_2, pre_exposure_3);
 
 var exposure_phase_stimuli = jsPsych.randomization.shuffle(jsPsych.utils.deepCopy(word_pairs));
 
@@ -80,16 +141,65 @@ for(var i=0; i<exposure_phase_stimuli.length; i++){
     next_shiny: false
   })
 }
-
-var pre_study = {
+/*
+var post_exposure = {
   type: 'dialog',
-  stimulus: '<p>This the dialog that starts the practice phase. Practice each pair for testing later.</p>',
+  stimulus: '<p>That\'s all the pairs. Now you\'ll get another chance to study, but first you\'ll play a short game to determine </p>'
   button_html: '<button class="dialog-btn">%choice%</button>',
+  choices: ["I'm ready! Let's go."],
+  post_trial_gap: 250,
+}
+*/
+
+var pre_study_precious = {
+  type: 'dialog',
+  stimulus: '<div style="width:900px;">'+
+    '<div style="width:60%; display: inline-block; text-align: left;">'+
+    '<p style="font-size: 38px;">Win Practice Opportunities!</p>'+
+    '<p>In most memory experiments, you would now be shown the pairs all over again. '+
+    'But that doesn’t seem like a good way to learn.  In this experiment, we’re going to '+
+    'give you the chance to win practice test trials, valuable opportunities to test yourself '+
+    'on some of the pairs, which should help you form better memories for the list.</p>'+
+    '<p>To help us get a good variety of learning experiences, you’ll play a quick game that '+
+    'will determine how many practice test opportunities you win for the next part of the experiment.</p>'+
+    '</div><div style="width:40%; display: inline-block;">'+
+    '<p>Normal restudy:<br>Just seeing the pairs again.</p>'+
+    '<div class="mini-card"><p>napkin</p><p>viking</p></div>'+
+    '<p><span style="font-weight: bold; color: limegreen; font-style: italic;">Win practice trials!</span><br>Opportunities to test yourself</p>'+
+    '<div class="mini-shiny-card"><p>napkin</p><input type="text" class="mini-quiz-input" value="?"></input></div>'+
+    '</div></div>',
+  button_html: '<button class="dialog-btn">%choice%</button>',
+  max_width: 900,
   choices: ["Got it. Let's go!"],
   post_trial_gap: 1000
 }
 
-timeline.push(pre_study);
+timeline.push(pre_study_precious);
+
+var pre_study_painful = {
+  type: 'dialog',
+  stimulus: '<div style="width:900px;">'+
+    '<div style="width:60%; display: inline-block; text-align: left;">'+
+    '<p style="font-size: 38px;">Reduce the Practice Tests!</p>'+
+    '<p>In most memory experiments, you would now be asked to test yourself on all the pairs. '+
+    'But that doesn’t seem like a good way to learn.  In this experiment, we’re going to '+
+    'give you the chance to reduce the number of practice test trials, replacing them with '+
+    'trials where you get to see the pairs, which should help you form better memories for the list.</p>'+
+    '<p>To help us get a good variety of learning experiences, you’ll play a quick game that '+
+    'will determine how many practice test trials you can get rid of for the next part of the experiment.</p>'+
+    '</div><div style="width:40%; display: inline-block;">'+
+    '<p>Normal practice:<br>Testing yourself on the pairs</p>'+
+    '<div class="mini-card"><p>napkin</p><input type="text" class="mini-quiz-input" value="?"></input></div>'+
+    '<p><span style="font-weight: bold; color: limegreen; font-style: italic;">Win restudy trials!</span><br>Opportunities to see the pairs again</p>'+
+    '<div class="mini-shiny-card"><p>napkin</p><p>viking</p></div>'+
+    '</div></div>',
+  button_html: '<button class="dialog-btn">%choice%</button>',
+  max_width: 900,
+  choices: ["Got it. Let's go!"],
+  post_trial_gap: 1000
+}
+
+timeline.push(pre_study_painful);
 
 var study_phase_stimuli = jsPsych.randomization.shuffle(jsPsych.utils.deepCopy(word_pairs));
 var number_test = 2;
