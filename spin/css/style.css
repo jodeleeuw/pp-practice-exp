@@ -2,10 +2,11 @@
  visibility: hidden;
 }
 .wheelContainer{
- width: 100%;
+ width: 50%;
  height: 100%;
  margin: 0;
  padding: 0;
+ float: left;
 }
 .centerCircle, .valueContainer, .wheelOutline, .wheelText {
  pointer-events: none;
@@ -14,7 +15,6 @@
  text-align: center;
 }
 .toast, button {
- position: absolute;
  background-color: #E81D62;
 }
 .wheelSVG {
@@ -50,8 +50,8 @@
  -webkit-transition: line-height .2s ease;
  transition: line-height .2s ease;
 }
-button {
- left:50%;
+button.spinBtn {
+ left: 50%;
  width: 80%;
  top: 20px;
  max-width: 400px;
