@@ -167,7 +167,7 @@ function Spin2WinWheel() {
       })
 
       TweenMax.set('svg', {
-        xPercent: -50,
+        //xPercent: -50,
         left: '50%'//,
         //top: '50%',
         //yPercent: -50
