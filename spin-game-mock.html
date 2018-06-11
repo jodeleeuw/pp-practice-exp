@@ -114,10 +114,15 @@
           </div> 
         </div>
         <div class="textContainer">
-          <p>Normal restudy:<br>Just seeing the pairs again.</p>
-          <div class="mini-card"><p>napkin</p><p>viking</p></div>
-          <p><span style="font-weight: bold; color: limegreen; font-style: italic;">Win practice trials!</span><br>Opportunities to test yourself</p>
-          <div class="mini-shiny-card"><p>napkin</p><input type="text" class="mini-quiz-input" value="?"></input></div>
+          <p style="font-size: 36px;">Win practice trials!</p>
+          <div style="width: 50%; float: left;">
+            <div class="mini-card"><p>napkin</p><p>viking</p></div>
+            <p><span id="numStudy" style="font-weight: bold; color: red;">32</span> study trials remaining</p>
+          </div>
+          <div style="width: 50%; display: inline-block;">
+            <div class="mini-shiny-card"><p>napkin</p><input type="text" class="mini-quiz-input" value="?"></input></div>
+            <p>You've won <span id="numPractice" style="font-weight: bold; color: limegreen;">0</span> practice trials</p>
+          </div>
           <button class="spinBtn">Spin!</button>
         </div>
       </div>
