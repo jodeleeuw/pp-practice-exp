@@ -27,6 +27,51 @@
     overflow-x: hidden;
   }
 
+  .textContainer {
+    width: 50%;
+    display: inline-block;
+  }
+
+  .mini-card {
+    color: #555;
+    font-size: 24px;
+    line-height: 45px;
+    width: 150px;
+    height: 90px;
+    margin: auto;
+    background-color: #fff;
+    box-shadow:
+      0 2px 4px 0 rgba(0,0,0,0.50)
+  }
+
+  .mini-shiny-card {
+    color: #555;
+    background: linear-gradient(225deg, #fefcea 0%, #f1da36 100%);
+    font-size: 24px;
+    line-height: 45px;
+    width: 150px;
+    height: 90px;
+    margin: auto;
+    background-color: #fff;
+    box-shadow:
+      0 2px 4px 0 rgba(0,0,0,0.50),
+      0 0 10px 5px rgba(255,255,170, 0.85)
+  }
+
+  .mini-card p, .mini-shiny-card p {
+    margin:0;
+  }
+
+  .mini-shiny-card input[type="text"], .mini-card input[type="text"] {
+    font-size: 24px;
+    font-family: 'Open Sans';
+    color: #555;
+    text-align: center;
+    width: 120px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+  }
+
   </style>
   <script src='https://cdnjs.cloudflare.com/ajax/libs/gsap/1.20.2/TweenMax.min.js'></script>
   <script src='https://cdnjs.cloudflare.com/ajax/libs/gsap/1.20.2/utils/Draggable.min.js'></script>
@@ -69,6 +114,10 @@
           </div> 
         </div>
         <div class="textContainer">
+          <p>Normal restudy:<br>Just seeing the pairs again.</p>
+          <div class="mini-card"><p>napkin</p><p>viking</p></div>
+          <p><span style="font-weight: bold; color: limegreen; font-style: italic;">Win practice trials!</span><br>Opportunities to test yourself</p>
+          <div class="mini-shiny-card"><p>napkin</p><input type="text" class="mini-quiz-input" value="?"></input></div>
           <button class="spinBtn">Spin!</button>
         </div>
       </div>

@@ -51,9 +51,8 @@
  transition: line-height .2s ease;
 }
 button.spinBtn {
- left: 50%;
+ margin-top: 50px;
  width: 80%;
- top: 20px;
  max-width: 400px;
  padding: 20px;
  font-weight: 700;
