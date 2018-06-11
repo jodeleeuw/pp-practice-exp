@@ -117,13 +117,13 @@
           <p style="font-size: 36px;">Win practice trials!</p>
           <div style="width: 50%; float: left;">
             <div class="mini-card"><p>napkin</p><p>viking</p></div>
-            <p><span id="numStudy" style="font-weight: bold; color: red;">32</span> study trials remaining</p>
+            <p><span id="numLeft" style="font-weight: bold; color: red;">32</span> study trials remaining</p>
           </div>
           <div style="width: 50%; display: inline-block;">
             <div class="mini-shiny-card"><p>napkin</p><input type="text" class="mini-quiz-input" value="?"></input></div>
-            <p>You've won <span id="numPractice" style="font-weight: bold; color: limegreen;">0</span> practice trials</p>
+            <p>You've won <span id="numWon" style="font-weight: bold; color: limegreen;">0</span> practice trials</p>
           </div>
-          <p style="font-size:22px;">You have 4 spins remaining</p>
+          <p style="font-size:22px;">You have <span id="spinsLeft">4 spins</span> remaining</p>
           <button class="spinBtn">Spin!</button>
         </div>
       </div>
@@ -131,10 +131,25 @@
   </div>
 </body>
 <script>
+var numSpins = 4;
+var wins = 0;
+
 //Usage
 
 //your own function to capture the spin results
 function myResult(e) {
+  wins += e.userData.score;
+  document.querySelector('#numWon').innerHTML = wins;
+  document.querySelector('#numLeft').innerHTML = 32 - wins;
+  numSpins--;
+  var spinMsg = "no spins"
+  if(numSpins == 1){
+    spinMsg = "1 spin"
+  } else {
+    spinMsg = numSpins + " spins"
+  }
+  document.querySelector('#spinsLeft').innerHTML = spinMsg;
+
 //e is the result object
   console.log('Spin Count: ' + e.spinCount + ' - ' + 'Win: ' + e.win + ' - ' + 'Message: ' +  e.msg);
 
@@ -174,13 +189,13 @@ function init() {
   var data = {
     "colorArray":[ "#364C62", "#F1C40F", "#E67E22", "#E74C3C", "#95A5A6", "#16A085", "#27AE60", "#2980B9", "#8E44AD", "#2C3E50", "#F39C12", "#D35400", "#C0392B", "#BDC3C7","#1ABC9C", "#2ECC71", "#E87AC2", "#3498DB", "#9B59B6", "#7F8C8D"],
     "segmentValuesArray" : [
-      {"probability":23, "type": "string", "value": "+2", "win": false, "resultText": "Awesome! You won two additional practice test trials.", "userData": {"score":1000000}},
-      {"probability":50, "type": "string", "value": "+6", "win": false, "resultText": "Awesome! You won six additional practice test trials.", "userData": {"score":0}},
-      {"probability":50, "type": "string", "value": "+4", "win": false, "resultText": "Awesome! You won four additional practice test trials.", "userData": {"score":0}},
-      {"probability":50, "type": "string", "value": "+8", "win": false, "resultText": "Awesome! You won eight additional practice test trials.", "userData": {"score":40}},
-      {"probability":50, "type": "string", "value": "-2", "win": false, "resultText": "Bummer. You lose two practice test trials.", "userData": {"score":0}},
-      {"probability":50, "type": "string", "value": "-4", "win": false, "resultText": "Bummer. You lose four practice test trials.", "userData": {"score":0}}, 
-      {"probability":10, "type": "string", "value": "-6", "win": false, "resultText": "Bummer. You lose six practice test trials.", "userData": {"score":2}}
+      {"probability":1, "type": "string", "value": "+2", "win": false, "resultText": "You win 2 additional practice test trials.", "userData": {"score":2}},
+      {"probability":1, "type": "string", "value": "+1", "win": false, "resultText": "You win 1 additional practice test trial.", "userData": {"score":1}},
+      {"probability":1, "type": "string", "value": "+2", "win": false, "resultText": "You win 2 additional practice test trials.", "userData": {"score":2}},
+      {"probability":1, "type": "string", "value": "+8", "win": false, "resultText": "Awesome! You win 8 additional practice test trials.", "userData": {"score":8}},
+      {"probability":1, "type": "string", "value": "+3", "win": false, "resultText": "Not bad. That's 3 additional practice test trials!", "userData": {"score":3}},
+      {"probability":1, "type": "string", "value": "+1", "win": false, "resultText": "You win 1 additional practice test trial.", "userData": {"score":1}}, 
+      {"probability":1, "type": "string", "value": "+4", "win": false, "resultText": "Nice spin. You win 4 additional practice test trials.", "userData": {"score":4}}
     ],
     "svgWidth": 500,
     "svgHeight": 500,
@@ -204,7 +219,7 @@ function init() {
     "numSpins": 4 ,
     "spinDestinationArray":[],
     "minSpinDuration":6,
-    "gameOverText":"I HOPE YOU ENJOYED SPIN2WIN WHEEL.<br>NOW GO AND <a href='https://codecanyon.net/item/spin2win-wheel-spin-it-2-win-it/16337656?ref=chrisgannon'>BUY IT!</a> :)",
+    "gameOverText":"That's the end of your spins!",
     "invalidSpinText":"INVALID SPIN. PLEASE SPIN AGAIN.",
     //"introText":"YOU HAVE TO<br>SPIN IT <span style='color:#F282A9;'>2</span> WIN IT!",
     "hasSound":true,
