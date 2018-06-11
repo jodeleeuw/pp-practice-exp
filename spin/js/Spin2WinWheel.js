@@ -159,12 +159,12 @@ function Spin2WinWheel() {
         y: 0
       })
 
-      TweenMax.set([toast], {
+      /*TweenMax.set([toast], {
         xPercent: -50,
         left: '50%'//,
         //top: '50%',
         //yPercent: -50
-      })
+      })*/
 
       TweenMax.set('svg', {
         //xPercent: -50,
@@ -911,10 +911,10 @@ window.onresize = function(){
     var h = parseFloat(getComputedStyle(wheelSVG).height);
     var toastWidth = parseFloat(getComputedStyle(toast).width);
     var toastHeight = parseFloat(getComputedStyle(toast).height);
-    TweenMax.set('.toast', {
+    /*TweenMax.set('.toast', {
       //x:(w/2) - (toastWidth/2),
-      y:((h+ centerDiffY)/2) - (toastHeight/2) 
-    })
+      //y:((h+ centerDiffY)/2) - (toastHeight/2) 
+    })*/
 
     //console.log(centerY, centerDiffY)
   }

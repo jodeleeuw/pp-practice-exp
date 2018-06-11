@@ -7,6 +7,7 @@
  margin: 0;
  padding: 0;
  float: left;
+ position: relative;
 }
 .centerCircle, .valueContainer, .wheelOutline, .wheelText {
  pointer-events: none;
@@ -32,12 +33,17 @@
 .toast {
  border-radius: 12px;
  opacity: 0;
+ position: absolute;
+ top: calc(-50px + 50%);
+ left: calc(-150px + 50%);
+ height: 100px;
+ width: 300px;
 }
 .toast p {
  clear: both;
  font-family: 'Fjalla One', Arial, sand-serif;
  margin: 23px;
- font-size: 30px;
+ font-size: 18px;
  color: #ededed;
  letter-spacing: 0;
  -webkit-touch-callout: none;
@@ -46,7 +52,7 @@
  -moz-user-select: none;
  -ms-user-select: none;
  user-select: none;
- line-height: 32px;
+ line-height: 24px;
  -webkit-transition: line-height .2s ease;
  transition: line-height .2s ease;
 }
@@ -64,38 +70,7 @@ button.spinBtn {
  cursor: pointer;
  font-family: "Fjalla One", Helvetica, Arial, sans-serif;
 }
-@media only screen and (max-width: 480px) {
- .toast p, .toast span {
-  font-size: 18px;
-  line-height: 18px;
- }
-}
-@media only screen and (min-width: 481px) and (max-width: 800px) {
- .toast p, .toast span {
-  font-size: 38px;
-  line-height: 38px;
- }
-}
-@media only screen and (min-width: 801px) {
- .toast p, .toast span {
-  font-size: 58px;
-  line-height: 60px;
- }
-}
-@media only screen and (max-height: 480px) {
- .toast p, .toast span {
-  font-size: 33px;
-  line-height: 35px;
- }
- button {
-  font-size: 22px;
-  padding: 10px;
-  width: 40%;
- }
- .wheelContainer {
-  top: 70px;
- }
-}
+
 button:focus {
  outline: 0;
 }
