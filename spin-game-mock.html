@@ -207,13 +207,13 @@ function init() {
   var data = {
     "colorArray":[ "#364C62", "#F1C40F", "#E67E22", "#E74C3C", "#95A5A6", "#16A085", "#27AE60", "#2980B9", "#8E44AD", "#2C3E50", "#F39C12", "#D35400", "#C0392B", "#BDC3C7","#1ABC9C", "#2ECC71", "#E87AC2", "#3498DB", "#9B59B6", "#7F8C8D"],
     "segmentValuesArray" : [
-      {"probability":1, "type": "string", "value": "+2", "win": false, "resultText": "You win 2 additional practice test trials.", "userData": {"score":2}},
-      {"probability":1, "type": "string", "value": "+1", "win": false, "resultText": "You win 1 additional practice test trial.", "userData": {"score":1}},
-      {"probability":1, "type": "string", "value": "+2", "win": false, "resultText": "You win 2 additional practice test trials.", "userData": {"score":2}},
-      {"probability":1, "type": "string", "value": "+8", "win": false, "resultText": "Awesome! You win 8 additional practice test trials.", "userData": {"score":8}},
-      {"probability":1, "type": "string", "value": "+3", "win": false, "resultText": "Not bad. That's 3 additional practice test trials!", "userData": {"score":3}},
-      {"probability":1, "type": "string", "value": "+1", "win": false, "resultText": "You win 1 additional practice test trial.", "userData": {"score":1}}, 
-      {"probability":1, "type": "string", "value": "+4", "win": false, "resultText": "Nice spin. You win 4 additional practice test trials.", "userData": {"score":4}}
+      {"type": "string", "value": "+2", "win": false, "resultText": "You win 2 additional practice test trials.", "userData": {"score":2}},
+      {"type": "string", "value": "+1", "win": false, "resultText": "You win 1 additional practice test trial.", "userData": {"score":1}},
+      {"type": "string", "value": "+2", "win": false, "resultText": "You win 2 additional practice test trials.", "userData": {"score":2}},
+      {"type": "string", "value": "+8", "win": false, "resultText": "Awesome! You win 8 additional practice test trials.", "userData": {"score":8}},
+      {"type": "string", "value": "+3", "win": false, "resultText": "Not bad. That's 3 additional practice test trials!", "userData": {"score":3}},
+      {"type": "string", "value": "+1", "win": false, "resultText": "You win 1 additional practice test trial.", "userData": {"score":1}}, 
+      {"type": "string", "value": "+4", "win": false, "resultText": "Nice spin. You win 4 additional practice test trials.", "userData": {"score":4}}
     ],
     "svgWidth": 500,
     "svgHeight": 500,
@@ -234,8 +234,8 @@ function init() {
     "centerX": 250,
     "centerY": 250,  
     "hasShadows": false,
-    "numSpins": 4 ,
-    "spinDestinationArray":[],
+    "numSpins": numSpins ,
+    "spinDestinationArray":[4,4,4],
     "minSpinDuration":6,
     "gameOverText":"That's the end of your spins!",
     "invalidSpinText":"INVALID SPIN. PLEASE SPIN AGAIN.",
