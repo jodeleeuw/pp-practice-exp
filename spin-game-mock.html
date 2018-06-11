@@ -134,13 +134,31 @@
 var numSpins = 4;
 var wins = 0;
 
-//Usage
+var upSound = new Audio('audio/powerUp8.mp3');
+
+function countUp(remaining, callback){
+  wins++;
+  upSound.play();
+  document.querySelector('#numWon').innerHTML = wins;
+  document.querySelector('#numLeft').innerHTML = 32 - wins;
+  if(remaining > 1){
+    upSound.addEventListener('ended', function(){
+      countUp(remaining-1, callback);
+      upSound.currentTime = 0;
+    }, {once: true});
+  } else {
+    callback();
+  }
+}
 
 //your own function to capture the spin results
 function myResult(e) {
-  wins += e.userData.score;
-  document.querySelector('#numWon').innerHTML = wins;
-  document.querySelector('#numLeft').innerHTML = 32 - wins;
+
+  // implement some kind of tone count up
+  countUp(e.userData.score, function(){
+
+  });
+
   numSpins--;
   var spinMsg = "no spins"
   if(numSpins == 1){
