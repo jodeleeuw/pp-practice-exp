@@ -183,7 +183,7 @@ jsPsych.plugins["wheel-game"] = (function() {
                 "gameOverText":"That's the end of the game! Please click continue.",
                 "invalidSpinText":"INVALID SPIN. PLEASE SPIN AGAIN.",
                 //"introText":"YOU HAVE TO<br>SPIN IT <span style='color:#F282A9;'>2</span> WIN IT!",
-                "hasSound":true,
+                "hasSound":false,
                 "gameId":"9a0232ec06bc431114e2a7f3aea03bbe2164f1aa",
                 "clickToSpin":true,
                 "spinDirection":"ccw"
