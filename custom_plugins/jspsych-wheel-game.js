@@ -138,8 +138,6 @@ jsPsych.plugins["wheel-game"] = (function() {
         }
 
         function myGameEnd(e) {
-            //e is gameResultsArray
-            console.log(e);
             document.querySelector('#spinBtn').innerHTML = "Continue"
             document.querySelector('#spinBtn').addEventListener('click', function(){
                 document.querySelector('#game-holder').addEventListener('animationend', end_trial);
