@@ -16,66 +16,10 @@ jsPsych.plugins["wheel-game"] = (function() {
       name: 'wheel-game',
       description: '',
       parameters: {
-        stimulus: {
-          type: jsPsych.plugins.parameterType.HTML_STRING,
-          pretty_name: 'Stimulus',
-          default: undefined,
-          description: 'The HTML string to be displayed'
-        },
-        choices: {
-          type: jsPsych.plugins.parameterType.STRING,
-          pretty_name: 'Choices',
-          default: undefined,
-          array: true,
-          description: 'The labels for the buttons.'
-        },
-        button_html: {
-          type: jsPsych.plugins.parameterType.STRING,
-          pretty_name: 'Button HTML',
-          default: '<button class="jspsych-btn">%choice%</button>',
-          array: true,
-          description: 'The html of the button. Can create own style.'
-        },
-        prompt: {
-          type: jsPsych.plugins.parameterType.STRING,
-          pretty_name: 'Prompt',
-          default: null,
-          description: 'Any content here will be displayed under the button.'
-        },
-        max_width: {
+        outcomes: {
           type: jsPsych.plugins.parameterType.INT,
-          default: 600
-        },
-        stimulus_duration: {
-          type: jsPsych.plugins.parameterType.INT,
-          pretty_name: 'Stimulus duration',
-          default: null,
-          description: 'How long to hide the stimulus.'
-        },
-        trial_duration: {
-          type: jsPsych.plugins.parameterType.INT,
-          pretty_name: 'Trial duration',
-          default: null,
-          description: 'How long to show the trial.'
-        },
-        margin_vertical: {
-          type: jsPsych.plugins.parameterType.STRING,
-          pretty_name: 'Margin vertical',
-          default: '0px',
-          description: 'The vertical margin of the button.'
-        },
-        margin_horizontal: {
-          type: jsPsych.plugins.parameterType.STRING,
-          pretty_name: 'Margin horizontal',
-          default: '8px',
-          description: 'The horizontal margin of the button.'
-        },
-        response_ends_trial: {
-          type: jsPsych.plugins.parameterType.BOOL,
-          pretty_name: 'Response ends trial',
-          default: true,
-          description: 'If true, then trial will end when user responds.'
-        },
+          default: undefined
+        }
       }
     }
   
@@ -150,7 +94,7 @@ jsPsych.plugins["wheel-game"] = (function() {
         display_element.innerHTML = html;
 
         var wheelValues = [2,1,6,8,3,1,4];
-        var outcomes = [3,7,4,3];
+        var outcomes = trial.outcomes; //[3,7,4,3];
         var numSpins = outcomes.length;
         var wins = 0;
 
@@ -198,8 +142,8 @@ jsPsych.plugins["wheel-game"] = (function() {
             console.log(e);
             document.querySelector('#spinBtn').innerHTML = "Continue"
             document.querySelector('#spinBtn').addEventListener('click', function(){
+                document.querySelector('#game-holder').addEventListener('animationend', end_trial);
                 document.querySelector('#game-holder').style.animation = 'pop-out 0.2s linear forwards';
-                end_trial();
             }, {once: true})
         }
 
@@ -255,27 +199,24 @@ jsPsych.plugins["wheel-game"] = (function() {
 
         //And finally call it
         init();
-
-
-      
-     
-      // function to end trial when it is time
-      function end_trial() {
-  
-        // kill any remaining setTimeout handlers
-        jsPsych.pluginAPI.clearAllTimeouts();
-  
-        // gather the data to store for the trial
-        var trial_data = {
-          
-        };
-  
-        // clear the display
-        display_element.innerHTML = '';
-  
-        // move on to the next trial
-        jsPsych.finishTrial(trial_data);
-      }
+        
+        // function to end trial when it is time
+        function end_trial() {
+    
+            // kill any remaining setTimeout handlers
+            jsPsych.pluginAPI.clearAllTimeouts();
+    
+            // gather the data to store for the trial
+            var trial_data = {
+            
+            };
+    
+            // clear the display
+            display_element.innerHTML = '';
+    
+            // move on to the next trial
+            jsPsych.finishTrial(trial_data);
+        }
 
     }
   

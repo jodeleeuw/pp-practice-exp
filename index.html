@@ -210,10 +210,22 @@ var pre_study_painful = {
 timeline.push(pre_study_painful);
 
 var spin_game = {
-  type: 'wheel-game'
+  type: 'wheel-game',
+  outcomes: [3,7,4,3],
+  post_trial_gap: 250
 }
 
 timeline.push(spin_game);
+
+var pre_practice = {
+  type: 'dialog',
+  stimulus: '<p>Time to study. Ready?</p>',
+  button_html: '<button class="dialog-btn">%choice%</button>',
+  choices: ["I'm ready! Let's go."],
+  post_trial_gap: 250,
+}
+
+timeline.push(pre_practice);
 
 var study_phase_stimuli = jsPsych.randomization.shuffle(jsPsych.utils.deepCopy(word_pairs));
 var number_test = 2;
