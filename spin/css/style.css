@@ -16,7 +16,7 @@
  text-align: center;
 }
 .toast, button {
- background-color: #E81D62;
+ background-color: #FFA500;
 }
 .wheelSVG {
  /*position: absolute;*/
@@ -26,7 +26,7 @@
 }
 .wheelText {
  text-anchor: middle;
- font-family: 'Fjalla One', Arial, sans-serif;
+ font-family: 'Open Sans', Arial, sans-serif;
  -webkit-user-select: none;
  user-select: none;
 }
@@ -41,7 +41,7 @@
 }
 .toast p {
  clear: both;
- font-family: 'Fjalla One', Arial, sand-serif;
+ font-family: 'Open Sans', Arial, sand-serif;
  margin: 23px;
  font-size: 18px;
  color: #ededed;
@@ -65,9 +65,12 @@ button.spinBtn {
  color: #ededed;
  border-radius: 6px;
  border: none;
- box-shadow: 0 2px 0 #D71559;
  cursor: pointer;
- font-family: "Fjalla One", Helvetica, Arial, sans-serif;
+ font-family: "Open Sans", Helvetica, Arial, sans-serif;
+}
+
+button.spinBtn:hover {
+    background: #FF8C00;
 }
 
 button:focus {

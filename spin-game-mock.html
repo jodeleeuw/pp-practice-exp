@@ -72,6 +72,8 @@
     border-radius: 3px;
   }
 
+  @keyframes pop-out { 0% { transform:scale(1); } 100% { transform:scale(0);} }
+
   </style>
   <script src='https://cdnjs.cloudflare.com/ajax/libs/gsap/1.20.2/TweenMax.min.js'></script>
   <script src='https://cdnjs.cloudflare.com/ajax/libs/gsap/1.20.2/utils/Draggable.min.js'></script>
@@ -117,21 +119,23 @@
           <p style="font-size: 36px;">Win practice trials!</p>
           <div style="width: 50%; float: left;">
             <div class="mini-card"><p>napkin</p><p>viking</p></div>
-            <p style="line-height:26px;">There are<br><span id="numLeft" style="font-weight: bold; color: red; font-size:36px;">32</span><br>study trials remaining</p>
+            <p>There are<br><span id="numLeft" style="font-weight: bold; color: red; font-size:36px;">32</span><br>study trials remaining</p>
           </div>
           <div style="width: 50%; display: inline-block;">
             <div class="mini-shiny-card"><p>napkin</p><input type="text" class="mini-quiz-input" value="?"></input></div>
-            <p style="line-height:26px;">You've won<br><span id="numWon" style="font-weight: bold; color: limegreen; font-size:36px;">0</span><br>practice trials</p>
+            <p>You've won<br><span id="numWon" style="font-weight: bold; color: limegreen; font-size:36px;">0</span><br>practice trials</p>
           </div>
           <p style="font-size:22px;">You have <span id="spinsLeft">4 spins</span> remaining</p>
-          <button class="spinBtn">Spin!</button>
+          <button id="spinBtn" class="spinBtn">Spin!</button>
         </div>
       </div>
     </div>
   </div>
 </body>
 <script>
-var numSpins = 4;
+var wheelValues = [2,1,6,8,3,1,4];
+var outcomes = [3,7,4,3];
+var numSpins = outcomes.length;
 var wins = 0;
 
 var upSound = new Audio('audio/powerUp8.mp3');
@@ -196,11 +200,10 @@ function myError(e) {
 function myGameEnd(e) {
   //e is gameResultsArray
   console.log(e);
-  TweenMax.delayedCall(5, function(){
-    
-    Spin2WinWheel.reset();
-
-  })
+  document.querySelector('#spinBtn').innerHTML = "Continue"
+  document.querySelector('#spinBtn').addEventListener('click', function(){
+    document.querySelector('#game-holder').style.animation = 'pop-out 0.2s linear forwards';
+  }, {once: true})
 }
 
 function init() {
@@ -209,7 +212,7 @@ function init() {
     "segmentValuesArray" : [
       {"type": "string", "value": "+2", "win": false, "resultText": "You win 2 additional practice test trials.", "userData": {"score":2}},
       {"type": "string", "value": "+1", "win": false, "resultText": "You win 1 additional practice test trial.", "userData": {"score":1}},
-      {"type": "string", "value": "+2", "win": false, "resultText": "You win 2 additional practice test trials.", "userData": {"score":2}},
+      {"type": "string", "value": "+6", "win": false, "resultText": "Wow! You win 6 additional practice test trials.", "userData": {"score":6}},
       {"type": "string", "value": "+8", "win": false, "resultText": "Awesome! You win 8 additional practice test trials.", "userData": {"score":8}},
       {"type": "string", "value": "+3", "win": false, "resultText": "Not bad. That's 3 additional practice test trials!", "userData": {"score":3}},
       {"type": "string", "value": "+1", "win": false, "resultText": "You win 1 additional practice test trial.", "userData": {"score":1}}, 
@@ -217,17 +220,17 @@ function init() {
     ],
     "svgWidth": 500,
     "svgHeight": 500,
-    "wheelStrokeColor": "#D0BD0C",
+    "wheelStrokeColor": "#CCCCCC",
     "wheelStrokeWidth": 10,
     "wheelSize": 400,
-    "wheelTextOffsetY": 60,
+    "wheelTextOffsetY": 70,
     "wheelTextColor": "#EDEDED",  
     "wheelTextSize": "2em",
-    "wheelImageOffsetY": 40,
+    "wheelImageOffsetY": 50,
     "wheelImageSize": 50,
-    "centerCircleSize": 100,
-    "centerCircleStrokeColor": "#F1DC15",
-    "centerCircleStrokeWidth": 5,
+    "centerCircleSize": 150,
+    "centerCircleStrokeColor": "#CCCCCC",
+    "centerCircleStrokeWidth": 8,
     "centerCircleFillColor": "#EDEDED",
     "segmentStrokeColor": "#E2E2E2",
     "segmentStrokeWidth": 4,
@@ -235,9 +238,9 @@ function init() {
     "centerY": 250,  
     "hasShadows": false,
     "numSpins": numSpins ,
-    "spinDestinationArray":[4,4,4],
+    "spinDestinationArray": outcomes,
     "minSpinDuration":6,
-    "gameOverText":"That's the end of your spins!",
+    "gameOverText":"That's the end of the game! Please click continue.",
     "invalidSpinText":"INVALID SPIN. PLEASE SPIN AGAIN.",
     //"introText":"YOU HAVE TO<br>SPIN IT <span style='color:#F282A9;'>2</span> WIN IT!",
     "hasSound":true,

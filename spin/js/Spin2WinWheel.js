@@ -746,7 +746,7 @@ function Spin2WinWheel() {
       })
 
       //show the gameOver text after 4 seconds
-      TweenMax.to(toastText, 1, {
+      TweenMax.to(toastText, 0, {
         text: gameOverText,
         ease: Linear.easeNone,
         delay: 2
@@ -815,7 +815,7 @@ function Spin2WinWheel() {
     },
     showToast = function(str) {
       toast.style.visibility = 'visible';
-      toast.style.backgroundColor = '#E81D62';
+      //toast.style.backgroundColor = '#E81D62';
       toastText.innerHTML = str;
       TweenMax.fromTo(toast, 0.6, {
         y: 20,
