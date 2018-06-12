@@ -31,6 +31,7 @@ jsPsych.plugins["wheel-game"] = (function() {
         html += '.mini-shiny-card { color: #555; background: linear-gradient(225deg, #fefcea 0%, #f1da36 100%); font-size: 24px; line-height: 45px; width: 150px; height: 90px; margin: auto; background-color: #fff; box-shadow:   0 2px 4px 0 rgba(0,0,0,0.50),   0 0 10px 5px rgba(255,255,170, 0.85) }';
         html += '.mini-card p, .mini-shiny-card p { margin:0; }';
         html += '.mini-shiny-card input[type="text"], .mini-card input[type="text"] { font-size: 24px; font-family: "Open Sans"; color: #555; text-align: center; width: 120px; border: 1px solid #ccc; border-radius: 3px; }';
+        html += '@keyframes pop-in { 0% { transform:scale(0); } 75% { transform:scale(1.1); } 100% { transform:scale(1);} }';
         html += '@keyframes pop-out { 0% { transform:scale(1); } 100% { transform:scale(0);} }';
         html += '.peg, .wheelSVG { visibility: hidden; }';
         html += '.wheelContainer{ width: 50%; height: 100%; margin: 0; padding: 0; float: left; position: relative; }';
@@ -46,7 +47,7 @@ jsPsych.plugins["wheel-game"] = (function() {
         html += 'button:focus { outline: 0; }';
         html += '</style>';
 
-        html += '<div id="game-holder" style="width:1000px; height: 500px; background-color:white;">';
+        html += '<div id="game-holder" style="width:1000px; height: 500px; background-color:white; animation: pop-in 0.2s linear forwards; box-shadow: 0 2px 4px 0 rgba(0,0,0,0.50)">';
         html += '<div class="wheelContainer">';
         html += '<svg class="wheelSVG" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" text-rendering="optimizeSpeed">';
         html += '<defs>';
