@@ -155,7 +155,6 @@ function countUp(remaining, callback){
   }
 }
 
-//your own function to capture the spin results
 function myResult(e) {
 
   // implement some kind of tone count up
@@ -171,27 +170,8 @@ function myResult(e) {
     spinMsg = numSpins + " spins"
   }
   document.querySelector('#spinsLeft').innerHTML = spinMsg;
-
-//e is the result object
-  console.log('Spin Count: ' + e.spinCount + ' - ' + 'Win: ' + e.win + ' - ' + 'Message: ' +  e.msg);
-
-  // if you have defined a userData object...
-  if(e.userData){
-    
-    console.log('User defined score: ' + e.userData.score)
-
-  }
-
-//if(e.spinCount == 3){
-  //show the game progress when the spinCount is 3
-  //console.log(e.target.getGameProgress());
-  //restart it if you like
-  //e.target.restart();
-//}  
-
 }
 
-//your own function to capture any errors
 function myError(e) {
   //e is error object
   console.log('Spin Count: ' + e.spinCount + ' - ' + 'Message: ' +  e.msg);
