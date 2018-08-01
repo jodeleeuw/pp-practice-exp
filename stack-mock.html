@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+
+  @import url(https://fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,400,700);
+
+  html {
+    height: 100%;
+    width: 100%;
+    font-family: 'Open Sans';
+  }
+  body {
+    margin:0;
+    width: 100%;
+    height: 100%;
+    background: repeating-linear-gradient(
+      90deg,
+      hsla(232, 41%, 56%, 1),
+      hsla(232, 41%, 56%, 1) 3px,
+      hsla(232, 41%, 60%, 1) 3px,
+      hsla(232, 41%, 60%, 1) 18px
+    );
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+
+  @keyframes anim-slide {
+    0% {transform: translateX(300%) }
+    10% {transform: translateX(0%) }
+    90% {transform: translateX(0%) }
+    100% {transform: translateX(-300%) }
+  }
+
+  @keyframes slide-in {
+    0% {transform: translateX(300%) }
+    100% {transform: translateX(0%) }
+  }
+
+  @keyframes slide-out {
+    0% {transform: translateX(0%) }
+    100% {transform: translateX(-300%) }
+  }
+
+  #card-pile-right {
+    position: fixed;
+    right: 0;
+    perspective: 1000px;
+  }
+
+  #card-pile-left {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    perspective: 1000px;
+  }
+
+  .card-stack { 
+    width:500px;
+    height:300px;
+    background-color: white;
+    border: 1px solid black;
+  }
+
+  .stack-item {
+    transform: scale(0.5);
+    position: absolute;
+    bottom: 0;
+  }
+
+  </style>
+</head>
+<body>
+    <div style="display: flex; margin: auto; flex: 1 1 100%; width: 100%;">
+      <div style="text-align:center; margin:auto;">
+        <div id="card-holder" style="width:500px; height: 350px; position: relative;">
+          <div id="card" style="position:absolute;  width:500px; height: 300px; background-color: #fff; box-shadow: 0 2px 4px 0 rgba(0,0,0,0.50); font-size:60px; font-family:'Open Sans'; color: #555;">
+            <p style="line-height:150px; margin:0;">napkin</p>
+            <p style="line-height:150px; margin:0;">viking</p>
+            <div id="timer"></div>
+          </div>
+          <div id="card-pile-left">
+            <div class="stack-item" style="transform: scale(0.26) translateY(-240px)"><div class="card-stack"></div></div>
+            <div class="stack-item" style="transform: scale(0.28) translateY(-220px)"><div class="card-stack"></div></div>
+            <div class="stack-item" style="transform: scale(0.30) translateY(-200px)"><div class="card-stack"></div></div>
+            <div class="stack-item" style="transform: scale(0.32) translateY(-180px)"><div class="card-stack"></div></div>
+            <div class="stack-item" style="transform: scale(0.34) translateY(-160px)"><div class="card-stack"></div></div>
+            <div class="stack-item" style="transform: scale(0.36) translateY(-140px)"><div class="card-stack"></div></div>
+            <div class="stack-item" style="transform: scale(0.38) translateY(-120px)"><div class="card-stack"></div></div>
+            <div class="stack-item" style="transform: scale(0.40) translateY(-100px)"><div class="card-stack"></div></div>
+            <div class="stack-item" style="transform: scale(0.42) translateY(-80px)"><div class="card-stack"></div></div>
+            <div class="stack-item" style="transform: scale(0.44) translateY(-60px)"><div class="card-stack"></div></div>
+            <div class="stack-item" style="transform: scale(0.46) translateY(-40px)"><div class="card-stack"></div></div>
+            <div class="stack-item" style="transform: scale(0.48) translateY(-20px)"><div class="card-stack"></div></div>
+            <div class="stack-item" style="transform: scale(0.5) translateY(0)"><div class="card-stack"></div></div>
+          </div>
+          <div id="card-pile-right">
+            <div class="stack-item"><div class="card-stack"></div></div>
+            <div class="stack-item"><div class="card-stack"></div></div>
+            <div class="stack-item"><div class="card-stack"></div></div>
+          </div>
+          <p id="sub" style="font-size: 18px; font-weight: bold; color: white; margin: 0; padding-top: 320px">1 of 36</p>
+        </div>
+      </div>
+    </div>
+</body>
+<script>
+
+var study_duration = 4000;
+
+
+</script>
+</html>
