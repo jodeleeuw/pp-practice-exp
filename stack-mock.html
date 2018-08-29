@@ -44,24 +44,38 @@
     100% {transform: translateX(-300%) }
   }
 
-  #card-pile-right {
-    position: fixed;
-    right: 0;
-    perspective: 1000px;
-  }
-
-  #card-pile-left {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    perspective: 1000px;
-  }
-
-  .card-stack { 
+  .card { 
     width:500px;
     height:300px;
+    background-color:white;
+    font-size:60px; 
+    font-family:'Open Sans'; 
+    color: #555;
+    text-align: center;
+    outline: 2px solid midnightblue;
+    border: 2px solid midnightblue;
+    box-shadow: 0 2px 4px 0 rgba(0,0,0,0.50);
+    backface-visibility: hidden;
+    transform-style: preserve-3d;
+  }
+
+  .card:after {
+    content: '';
+    width: 500px;
+    height: 300px;
+    position: absolute;
+    top:0px;
+    left:0px;
+    transform: rotateX(180deg);
+    transform-style: preserve-3d;
+    backface-visibility: hidden;
     background-color: white;
-    border: 1px solid black;
+    border: 2px solid midnightblue;
+    background-image:
+    radial-gradient(midnightblue 9px, transparent 10px),        
+    repeating-radial-gradient(midnightblue 0, midnightblue 4px, transparent 5px, transparent 20px, midnightblue 21px, midnightblue 25px, transparent 26px, transparent 50px);    
+    background-size: 30px 30px, 90px 90px; 
+    background-position: 0 0;
   }
 
   .stack-item {
@@ -70,17 +84,34 @@
     bottom: 0;
   }
 
+  @keyframes flip-to-front {
+    0% { transform: rotateX(180deg) }
+    100% { transform: rotateX(0deg) }
+  }
+
+  @keyframes flip-to-back {
+    0% { transform: rotateX(0deg) }
+    100% { transform: rotateX(180deg) }
+  }
+
   </style>
 </head>
 <body>
     <div style="display: flex; margin: auto; flex: 1 1 100%; width: 100%;">
       <div style="text-align:center; margin:auto;">
-        <div id="card-holder" style="width:500px; height: 350px; position: relative;">
-          <div id="card" style="position:absolute;  width:500px; height: 300px; background-color: #fff; box-shadow: 0 2px 4px 0 rgba(0,0,0,0.50); font-size:60px; font-family:'Open Sans'; color: #555;">
+        <div id="card-holder" style="perspective: 1000px;">
+          <div class="card" style="animation: flip-to-back 2s forwards;">
+            <!--<div class="front">-->
+              <p style="line-height:150px; margin:0;">napkin</p>
+              <p style="line-height:150px; margin:0;">viking</p>
+            <!--</div>-->
+            <!--<div class="back" style="animation: flip-to-front 1s forwards;"></div>-->
+          </div>
+          <!--<div id="card" style="position:absolute;  width:500px; height: 300px; background-color: #fff; box-shadow: 0 2px 4px 0 rgba(0,0,0,0.50); font-size:60px; font-family:'Open Sans'; color: #555;">
             <p style="line-height:150px; margin:0;">napkin</p>
             <p style="line-height:150px; margin:0;">viking</p>
             <div id="timer"></div>
-          </div>
+          </div>-->
           <div id="card-pile-left">
             <div class="stack-item" style="transform: scale(0.26) translateY(-240px)"><div class="card-stack"></div></div>
             <div class="stack-item" style="transform: scale(0.28) translateY(-220px)"><div class="card-stack"></div></div>
@@ -101,7 +132,7 @@
             <div class="stack-item"><div class="card-stack"></div></div>
             <div class="stack-item"><div class="card-stack"></div></div>
           </div>
-          <p id="sub" style="font-size: 18px; font-weight: bold; color: white; margin: 0; padding-top: 320px">1 of 36</p>
+          <!--<p id="sub" style="font-size: 18px; font-weight: bold; color: white; margin: 0; padding-top: 320px">1 of 36</p>-->
         </div>
       </div>
     </div>
