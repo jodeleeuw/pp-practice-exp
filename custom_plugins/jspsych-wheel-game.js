@@ -80,11 +80,11 @@ jsPsych.plugins["wheel-game"] = (function() {
         html += '<div class="textContainer">';
         html += '<p style="font-size: 36px;">Win practice trials!</p>';
         html += '<div style="width: 50%; float: left;">';
-        html += '<div class="mini-card"><p>napkin</p><p>viking</p></div>';
+        html += '<div class="mini-card mini-type-a"><p>napkin</p><p>viking</p></div>';
         html += '<p>There are<br><span id="numLeft" style="font-weight: bold; color: red; font-size:36px;">32</span><br>study trials remaining</p>';
         html += '</div>';
         html += '<div style="width: 50%; display: inline-block;">';
-        html += '<div class="mini-shiny-card"><p>napkin</p><input type="text" class="mini-quiz-input" value="?"></input></div>';
+        html += '<div class="mini-card mini-type-b"><p>napkin</p><input type="text" class="mini-quiz-input" value="?"></input></div>';
         html += '<p>You\'ve won<br><span id="numWon" style="font-weight: bold; color: limegreen; font-size:36px;">0</span><br>practice trials</p>';
         html += '</div>';
         html += '<p style="font-size:22px;">You have <span id="spinsLeft">4 spins</span> remaining</p>';
