@@ -148,11 +148,11 @@ var pre_exposure_3 = {
   post_trial_gap: 250,
 }
 
-//timeline.push(pre_exposure_1, pre_exposure_2, pre_exposure_3);
+timeline.push(pre_exposure_1, pre_exposure_2, pre_exposure_3);
 
 var exposure_phase_stimuli = jsPsych.randomization.shuffle(jsPsych.utils.deepCopy(word_pairs));
 
-/*for(var i=0; i<exposure_phase_stimuli.length; i++){
+for(var i=0; i<exposure_phase_stimuli.length; i++){
   timeline.push({
     type: 'memory-quiz',
     cue: exposure_phase_stimuli[i].cue,
@@ -169,15 +169,6 @@ var exposure_phase_stimuli = jsPsych.randomization.shuffle(jsPsych.utils.deepCop
     next_shiny: false
   })
 }
-/*
-var post_exposure = {
-  type: 'dialog',
-  stimulus: '<p>That\'s all the pairs. Now you\'ll get another chance to study, but first you\'ll play a short game to determine </p>'
-  button_html: '<button class="dialog-btn">%choice%</button>',
-  choices: ["I'm ready! Let's go."],
-  post_trial_gap: 250,
-}
-*/
 
 var pre_study_precious = {
   type: 'dialog',
@@ -202,7 +193,7 @@ var pre_study_precious = {
   post_trial_gap: 1000
 }
 
-//timeline.push(pre_study_precious);
+timeline.push(pre_study_precious);
 
 var pre_study_painful = {
   type: 'dialog',
@@ -235,7 +226,7 @@ var spin_game = {
   post_trial_gap: 250
 }
 
-//timeline.push(spin_game);
+timeline.push(spin_game);
 
 var pre_practice = {
   type: 'dialog',
@@ -245,7 +236,7 @@ var pre_practice = {
   post_trial_gap: 250,
 }
 
-//timeline.push(pre_practice);
+timeline.push(pre_practice);
 
 var study_phase_stimuli = jsPsych.randomization.shuffle(jsPsych.utils.deepCopy(word_pairs));
 var number_test = 2;

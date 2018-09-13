@@ -128,8 +128,8 @@ jsPsych.plugins["memory-quiz-stacks"] = (function() {
 
     // add LABELS
     html += '<p id="trial_count" style="visibility: hidden;">'+trial.question_number+' of '+trial.total_questions+'</p>';
-    html += '<p id="left_remain">'+trial.left_stack_count+' restudy cards left</p>';
-    html += '<p id="right_remain">'+trial.right_stack_count+' practice test cards left</p>';
+    html += '<p id="left_remain">'+trial.left_stack_count+' restudy '+(trial.left_stack_count == 1 ? 'card' : 'cards')+' left</p>';
+    html += '<p id="right_remain">'+trial.right_stack_count+' practice test '+(trial.right_stack_count == 1 ? 'card' : 'cards')+' left</p>';
 
     html += '</div>';
 
