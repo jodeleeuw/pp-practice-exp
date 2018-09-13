@@ -27,10 +27,10 @@ jsPsych.plugins["wheel-game"] = (function() {
   
         var html = '<style>';
         html += '.textContainer { width: 50%; display: inline-block; }';
-        html += '.mini-card { color: #555; font-size: 24px; line-height: 45px; width: 150px; height: 90px; margin: auto; background-color: #fff; box-shadow:   0 2px 4px 0 rgba(0,0,0,0.50) }';
-        html += '.mini-shiny-card { color: #555; background: linear-gradient(225deg, #fefcea 0%, #f1da36 100%); font-size: 24px; line-height: 45px; width: 150px; height: 90px; margin: auto; background-color: #fff; box-shadow:   0 2px 4px 0 rgba(0,0,0,0.50),   0 0 10px 5px rgba(255,255,170, 0.85) }';
-        html += '.mini-card p, .mini-shiny-card p { margin:0; }';
-        html += '.mini-shiny-card input[type="text"], .mini-card input[type="text"] { font-size: 24px; font-family: "Open Sans"; color: #555; text-align: center; width: 120px; border: 1px solid #ccc; border-radius: 3px; }';
+        //html += '.mini-card { color: #555; font-size: 24px; line-height: 45px; width: 150px; height: 90px; margin: auto; background-color: #fff; box-shadow:   0 2px 4px 0 rgba(0,0,0,0.50) }';
+        //html += '.mini-shiny-card { color: #555; background: linear-gradient(225deg, #fefcea 0%, #f1da36 100%); font-size: 24px; line-height: 45px; width: 150px; height: 90px; margin: auto; background-color: #fff; box-shadow:   0 2px 4px 0 rgba(0,0,0,0.50),   0 0 10px 5px rgba(255,255,170, 0.85) }';
+        //html += '.mini-card p, .mini-shiny-card p { margin:0; }';
+        //html += '.mini-shiny-card input[type="text"], .mini-card input[type="text"] { font-size: 24px; font-family: "Open Sans"; color: #555; text-align: center; width: 120px; border: 1px solid #ccc; border-radius: 3px; }';
         html += '@keyframes pop-in { 0% { transform:scale(0); } 75% { transform:scale(1.1); } 100% { transform:scale(1);} }';
         html += '@keyframes pop-out { 0% { transform:scale(1); } 100% { transform:scale(0);} }';
         html += '.peg, .wheelSVG { visibility: hidden; }';
@@ -77,7 +77,7 @@ jsPsych.plugins["wheel-game"] = (function() {
         html += '<p/>';
         html += '</div> ';
         html += '</div>';
-        html += '<div class="textContainer">';
+        html += '<div class="textContainer" style="perspective: 1000px;">';
         html += '<p style="font-size: 36px;">Win practice trials!</p>';
         html += '<div style="width: 50%; float: left;">';
         html += '<div class="mini-card mini-type-a"><p>napkin</p><p>viking</p></div>';

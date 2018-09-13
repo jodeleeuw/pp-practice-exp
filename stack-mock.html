@@ -171,6 +171,33 @@
     100% { transform: rotateX(180deg) translateX(-500px) translateY(-115px) scale(0.33); }
   }
 
+  #trial_count, #left_remain, #right_remain {
+    font-size: 18px;
+    font-weight: bold;
+    color: white;
+    position: absolute;
+    top: 105%;
+    width: 100%;
+    text-align: center;
+  }
+
+  #left_remain, #right_remain {
+    border-radius: 10px;
+    background: white;
+    color: hsla(232, 41%, 56%, 1);
+    padding: 2%
+  }
+
+  #left_remain {
+    transform: translateX(-360px) translateY(110px);
+    width: 46%;
+  }
+
+  #right_remain {
+    transform: translateX(640px) translateY(110px);
+    width: 46%;
+  }
+
   </style>
 </head>
 <body>
@@ -209,6 +236,10 @@
             <p style="line-height:150px; margin:0;">napkin</p>
             <p style="line-height:150px; margin:0;">viking</p>
           </div>
+          <!-- text -->
+          <p id="trial_count">1 of 32</p>
+          <p id="left_remain">23 restudy cards left</p>
+          <p id="right_remain">8 practice test cards left</p>
       
         </div>
       </div>
