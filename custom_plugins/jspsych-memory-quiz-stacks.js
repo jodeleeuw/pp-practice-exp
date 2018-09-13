@@ -42,6 +42,9 @@ jsPsych.plugins["memory-quiz-stacks"] = (function() {
     trial_data.target = trial.target;
     trial_data.display_type = trial.display;
 
+    var mainCardClass = trial.display == 'pair' ? 'card-left' : 'card-right';
+    var mainCardAnimation = trial.display == 'pair' ? 'flip-from-left' : 'flip-from-right';
+    
     var css = "<style id='trial-css'>";
     css += ".jspsych-display-element { overflow-y: hidden; }"
     css += ".card, .card:after { position: absolute;  width:500px; height:300px; background-color:white; font-size:60px;  font-family:'Open Sans';  color: #555; text-align: center; border: 10px solid white; box-shadow: 0 2px 4px 0 rgba(0,0,0,0.50); backface-visibility: hidden; transform-style: preserve-3d; }";
@@ -73,7 +76,11 @@ jsPsych.plugins["memory-quiz-stacks"] = (function() {
       var ytranslate_to = -200 + (i-1) * 5;
       var scale_to = 0.5 + (i-1) * -0.01;
       css += "@keyframes left-"+i+" {";
-      css += "0% { transform: rotateX(180deg) translateX(-500px) translateY("+ytranslate_from+"px) scale("+scale_from+"); }";
+      if(mainCardClass == 'card-left'){
+        css += "0% { transform: rotateX(180deg) translateX(-500px) translateY("+ytranslate_from+"px) scale("+scale_from+"); }";
+      } else {
+        css += "0% { transform: rotateX(180deg) translateX(-500px) translateY("+ytranslate_to+"px) scale("+scale_to+"); }";
+      }
       css += "100% { transform: rotateX(180deg) translateX(-500px) translateY("+ytranslate_to+"px) scale("+scale_to+"); }";
       css += "} ";
     }
@@ -83,7 +90,11 @@ jsPsych.plugins["memory-quiz-stacks"] = (function() {
       var ytranslate_to = -200 + (i-1) * 5;
       var scale_to = 0.5 + (i-1) * -0.01;
       css += "@keyframes right-"+i+" {";
-      css += "0% { transform: rotateX(180deg) translateX(500px) translateY("+ytranslate_from+"px) scale("+scale_from+"); }";
+      if(mainCardClass == 'card-right'){
+        css += "0% { transform: rotateX(180deg) translateX(500px) translateY("+ytranslate_from+"px) scale("+scale_from+"); }";
+      } else {
+        css += "0% { transform: rotateX(180deg) translateX(500px) translateY("+ytranslate_to+"px) scale("+scale_to+"); }";
+      }
       css += "100% { transform: rotateX(180deg) translateX(500px) translateY("+ytranslate_to+"px) scale("+scale_to+"); }";
       css += "} ";
     }
@@ -103,8 +114,6 @@ jsPsych.plugins["memory-quiz-stacks"] = (function() {
     }
 
     // add TARGET
-    var mainCardClass = trial.display == 'pair' ? 'card-left' : 'card-right';
-    var mainCardAnimation = trial.display == 'pair' ? 'flip-from-left' : 'flip-from-right';
     html += '<div id="study-card" class="card '+mainCardClass+'" style="animation: '+mainCardAnimation+' 0.5s forwards;">';
     if(trial.display == 'pair'){
       html += '<p style="line-height:150px; margin:0;">'+trial.cue+'</p>';
