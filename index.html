@@ -4,6 +4,7 @@
   <script src="jspsych-6.0.3/jspsych.js"></script>
   <script src="jspsych-6.0.3/plugins/jspsych-html-button-response.js"></script>
   <script src="custom_plugins/jspsych-memory-quiz.js"></script>
+  <script src="custom_plugins/jspsych-memory-quiz-stacks.js"></script>
   <script src="custom_plugins/jspsych-dialog.js"></script>
   <script src="custom_plugins/jspsych-wheel-game.js"></script>
   <!-- for the wheel game -->
@@ -201,7 +202,7 @@ var pre_study_precious = {
   post_trial_gap: 1000
 }
 
-timeline.push(pre_study_precious);
+//timeline.push(pre_study_precious);
 
 var pre_study_painful = {
   type: 'dialog',
@@ -234,7 +235,7 @@ var spin_game = {
   post_trial_gap: 250
 }
 
-timeline.push(spin_game);
+//timeline.push(spin_game);
 
 var pre_practice = {
   type: 'dialog',
@@ -244,7 +245,7 @@ var pre_practice = {
   post_trial_gap: 250,
 }
 
-timeline.push(pre_practice);
+//timeline.push(pre_practice);
 
 var study_phase_stimuli = jsPsych.randomization.shuffle(jsPsych.utils.deepCopy(word_pairs));
 var number_test = 2;
@@ -262,19 +263,16 @@ study_phase_stimuli = jsPsych.randomization.shuffle(study_phase_stimuli);
 
 for(var i=0; i<study_phase_stimuli.length; i++){
   timeline.push({
-    type: 'memory-quiz',
+    type: 'memory-quiz-stacks',
     cue: study_phase_stimuli[i].cue,
     target: study_phase_stimuli[i].target,
     display: study_phase_stimuli[i].display,
     study_duration: study_duration,
-    shiny: study_phase_stimuli[i].shiny,
     slide_in: i == 0 ? true : false,
     question_number: i+1,
     total_questions: study_phase_stimuli.length,
-    next_cue: i < study_phase_stimuli.length-1 ? study_phase_stimuli[i+1].cue : '',
-    next_target: i < study_phase_stimuli.length-1 ? study_phase_stimuli[i+1].target : '',
-    next_display: i < study_phase_stimuli.length-1 ? study_phase_stimuli[i+1].display : '',
-    next_shiny: i < study_phase_stimuli.length-1 ? study_phase_stimuli[i+1].shiny : false
+    left_stack_count: 23,
+    right_stack_count: 8
   })
 }
 
