@@ -112,20 +112,22 @@ jsPsych.plugins["memory-quiz-stacks"] = (function() {
     html += '</div>';
 
     // add LABELS
-    html += '<p id="trial_count">1 of 32</p>';
-    html += '<p id="left_remain">23 restudy cards left</p>';
-    html += '<p id="right_remain">8 practice test cards left</p>';
+    html += '<p id="trial_count" style="visibility: hidden;">'+trial.question_number+' of '+trial.total_questions+'</p>';
+    html += '<p id="left_remain">'+trial.left_stack_count+' restudy cards left</p>';
+    html += '<p id="right_remain">'+trial.right_stack_count+' practice test cards left</p>';
 
     html += '</div>';
 
     display_element.innerHTML = html;
 
-    if(trial.display == 'test'){
-      
-      display_element.querySelector('#study-card').addEventListener('animationend', function(){
+    display_element.querySelector('#study-card').addEventListener('animationend', function(){
+      if(trial.display == 'test'){
         display_element.querySelector('.quiz-input').focus();
-      })
-      
+      }
+      document.querySelector('#trial_count').style.visibility = 'visible';
+    })
+
+    if(trial.display == 'test'){
       jsPsych.pluginAPI.getKeyboardResponse({
         callback_function: after_response,
         valid_responses: [13],
@@ -148,7 +150,7 @@ jsPsych.plugins["memory-quiz-stacks"] = (function() {
 
     function slide_out(){
       document.querySelector('#study-card').addEventListener('animationend', end_trial);
-
+      document.querySelector('#trial_count').style.visibility = 'hidden';
       document.querySelector('#study-card').style.animation = "slide-out 0.5s forwards";
       /*if(trial.question_number < trial.total_questions){
         document.querySelector('#sub').innerHTML = (trial.question_number+1) + ' of ' + trial.total_questions;

@@ -260,20 +260,37 @@ for(var i=0; i<study_phase_stimuli.length; i++){
   }
 }
 study_phase_stimuli = jsPsych.randomization.shuffle(study_phase_stimuli);
+var total = study_phase_stimuli.length;
+var qnum = 1;
 
-for(var i=0; i<study_phase_stimuli.length; i++){
+while(study_phase_stimuli.length > 0){
+  var trial = study_phase_stimuli.pop();
+  if(study_phase_stimuli.length > 0){
+    var ls_count = study_phase_stimuli.reduce(function(count, trial){ 
+      var toAdd = trial.display == 'pair' ? 1 : 0;
+      return count + toAdd
+    }, 0);
+    var rs_count = study_phase_stimuli.reduce(function(count, trial){ 
+      var toAdd = trial.display == 'test' ? 1 : 0;
+      return count + toAdd
+    }, 0);
+  } else {
+    var ls_count = 0;
+    var rs_count = 0;
+  }
+  
   timeline.push({
     type: 'memory-quiz-stacks',
-    cue: study_phase_stimuli[i].cue,
-    target: study_phase_stimuli[i].target,
-    display: study_phase_stimuli[i].display,
+    cue: trial.cue,
+    target: trial.target,
+    display: trial.display,
     study_duration: study_duration,
-    slide_in: i == 0 ? true : false,
-    question_number: i+1,
-    total_questions: study_phase_stimuli.length,
-    left_stack_count: 23,
-    right_stack_count: 8
-  })
+    question_number: qnum,
+    total_questions: total,
+    left_stack_count: ls_count,
+    right_stack_count: rs_count
+  });
+  qnum++;
 }
 
 var post_study = {
