@@ -59,6 +59,10 @@ jsPsych.plugins["memory-quiz-stacks"] = (function() {
     css += "0% { transform: rotateX(180deg) translateX(-500px) translateY(-200px) scale(0.5);  }";
     css += "100% { transform: rotateX(0deg) translateX(0) translateY(0) scale(1);  }";
     css += "}"
+    css += "@keyframes flip-from-right {";
+    css += "0% { transform: rotateX(180deg) translateX(500px) translateY(-200px) scale(0.5);  }";
+    css += "100% { transform: rotateX(0deg) translateX(0) translateY(0) scale(1);  }";
+    css += "}"
     css += "@keyframes slide-out {";
     css += "0% { transform: rotateX(0deg) translateX(0) translateY(0) scale(1);  }";
     css += "100% { transform: translateY(1000px); }";
@@ -99,7 +103,9 @@ jsPsych.plugins["memory-quiz-stacks"] = (function() {
     }
 
     // add TARGET
-    html += '<div id="study-card" class="card card-left" style="animation: flip-from-left 0.5s forwards;">';
+    var mainCardClass = trial.display == 'pair' ? 'card-left' : 'card-right';
+    var mainCardAnimation = trial.display == 'pair' ? 'flip-from-left' : 'flip-from-right';
+    html += '<div id="study-card" class="card '+mainCardClass+'" style="animation: '+mainCardAnimation+' 0.5s forwards;">';
     if(trial.display == 'pair'){
       html += '<p style="line-height:150px; margin:0;">'+trial.cue+'</p>';
       html += '<p style="line-height:150px; margin:0;">'+trial.target+'</p>';
