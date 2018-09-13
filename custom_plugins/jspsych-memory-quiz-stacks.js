@@ -43,6 +43,7 @@ jsPsych.plugins["memory-quiz-stacks"] = (function() {
     trial_data.display_type = trial.display;
 
     var css = "<style id='trial-css'>";
+    css += ".jspsych-display-element { overflow-y: hidden; }"
     css += ".card, .card:after { position: absolute;  width:500px; height:300px; background-color:white; font-size:60px;  font-family:'Open Sans';  color: #555; text-align: center; border: 10px solid white; box-shadow: 0 2px 4px 0 rgba(0,0,0,0.50); backface-visibility: hidden; transform-style: preserve-3d; }";
     css += ".card:after { content: ''; position: absolute; top:0px; left:0px; transform: rotateX(180deg); }";
     css += ".card-left:after{ background-color: #f9f0cc; background-image: url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='49' viewBox='0 0 28 49'%3E%3Cg fill-rule='evenodd'%3E%3Cg id='hexagons' fill='%23ca7d00' fill-opacity='0.4' fill-rule='nonzero'%3E%3Cpath d='M13.99 9.25l13 7.5v15l-13 7.5L1 31.75v-15l12.99-7.5zM3 17.9v12.7l10.99 6.34 11-6.35V17.9l-11-6.34L3 17.9zM0 15l12.98-7.5V0h-2v6.35L0 12.69v2.3zm0 18.5L12.98 41v8h-2v-6.85L0 35.81v-2.3zM15 0v7.5L27.99 15H28v-2.31h-.01L17 6.35V0h-2zm0 49v-8l12.99-7.5H28v2.31h-.01L17 42.15V49h-2z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E\");}";
@@ -51,10 +52,17 @@ jsPsych.plugins["memory-quiz-stacks"] = (function() {
     css += "#left_remain, #right_remain { border-radius: 10px; background: white; color: hsla(232, 41%, 56%, 1); padding: 2% }";
     css += "#left_remain { transform: translateX(-360px) translateY(110px); width: 46%; }";
     css += "#right_remain { transform: translateX(640px) translateY(110px); width: 46%; }";
+    css += "#jspsych-content .quiz-input { font-size: 60px; font-family: 'Open Sans', sans-serif; color: #555; text-align: center; width: 400px; border: 1px solid #ccc; border-radius: 10px; }";
+    css += "#jspsych-content .quiz-input:focus { outline: 0; }";
+    css += "#jspsych-content .quiz-subtext { font-size: 14px; }";
     css += "@keyframes flip-from-left {";
     css += "0% { transform: rotateX(180deg) translateX(-500px) translateY(-200px) scale(0.5);  }";
     css += "100% { transform: rotateX(0deg) translateX(0) translateY(0) scale(1);  }";
     css += "}"
+    css += "@keyframes slide-out {";
+    css += "0% { transform: rotateX(0deg) translateX(0) translateY(0) scale(1);  }";
+    css += "100% { transform: translateY(1000px); }";
+    css += "}";
     for(var i=1; i <= trial.left_stack_count; i++){
       var ytranslate_from = -200 + (i) * 5;
       var scale_from = 0.5 + (i) * -0.01;
@@ -91,29 +99,32 @@ jsPsych.plugins["memory-quiz-stacks"] = (function() {
     }
 
     // add TARGET
-    html += '<div class="card card-left" style="animation: flip-from-left 0.5s forwards;">';
-    html += '<p style="line-height:150px; margin:0;">napkin</p>';
-    html += '<p style="line-height:150px; margin:0;">viking</p>';
+    html += '<div id="study-card" class="card card-left" style="animation: flip-from-left 0.5s forwards;">';
+    if(trial.display == 'pair'){
+      html += '<p style="line-height:150px; margin:0;">'+trial.cue+'</p>';
+      html += '<p style="line-height:150px; margin:0;">'+trial.target+'</p>';
+    }
+    if(trial.display == 'test'){
+      html += '<p style="line-height:150px; margin:0;">'+trial.cue+'</p>';
+      html += '<input type="text" class="quiz-input"></input>';
+      html += '<p class="quiz-subtext">Type a question mark (?) if you can\'t remember.</p>';
+    }
     html += '</div>';
-    
+
     // add LABELS
     html += '<p id="trial_count">1 of 32</p>';
     html += '<p id="left_remain">23 restudy cards left</p>';
     html += '<p id="right_remain">8 practice test cards left</p>';
 
-
     html += '</div>';
 
     display_element.innerHTML = html;
 
-    /*if(trial.display == 'test'){
-      if(trial.slide_in){
-        display_element.querySelector('#card').addEventListener('animationend', function(){
-          display_element.querySelector('.quiz-input').focus();
-        })
-      } else {
+    if(trial.display == 'test'){
+      
+      display_element.querySelector('#study-card').addEventListener('animationend', function(){
         display_element.querySelector('.quiz-input').focus();
-      }
+      })
       
       jsPsych.pluginAPI.getKeyboardResponse({
         callback_function: after_response,
@@ -123,8 +134,7 @@ jsPsych.plugins["memory-quiz-stacks"] = (function() {
         allow_held_key: false
       });
     } else if(trial.display == 'pair') {
-      var duration = trial.slide_in ? trial.study_duration + 500 : trial.study_duration;
-      jsPsych.pluginAPI.setTimeout(slide_out, duration)
+      jsPsych.pluginAPI.setTimeout(slide_out, trial.study_duration + 500)
     }
 
     function after_response(info){
@@ -133,42 +143,22 @@ jsPsych.plugins["memory-quiz-stacks"] = (function() {
       var correct = response == trial.target;
       trial_data.response = response;
       trial_data.correct = correct;
-      if(trial.show_feedback){
-        // audio
-        var context = jsPsych.pluginAPI.audioContext();
-        var sound = correct ? trial.correct_sound : trial.incorrect_sound;
-        if(context !== null){
-          var source = context.createBufferSource();
-          source.buffer = jsPsych.pluginAPI.getAudioBuffer(sound);
-          source.connect(context.destination);
-          var startTime = context.currentTime;
-          source.start(startTime);
-        } else {
-          var audio = jsPsych.pluginAPI.getAudioBuffer(sound);
-          audio.currentTime = 0;
-          audio.play();
-        }
-        display_element.querySelector('.quiz-input').style.color = correct ? '#26d923' : '#d92345';
-        display_element.querySelector('.quiz-input').style.borderColor = 'white';
-        setTimeout(slide_out, 250);
-      } else {
-        slide_out();
-      }
+      slide_out();
     }
 
     function slide_out(){
-      document.querySelector('#card').addEventListener('animationend', end_trial);
+      document.querySelector('#study-card').addEventListener('animationend', end_trial);
 
-      document.querySelector('#card').style.animation = "slide-out 0.5s forwards";
-      if(trial.question_number < trial.total_questions){
+      document.querySelector('#study-card').style.animation = "slide-out 0.5s forwards";
+      /*if(trial.question_number < trial.total_questions){
         document.querySelector('#sub').innerHTML = (trial.question_number+1) + ' of ' + trial.total_questions;
         document.querySelector('#card-next').style.visibility = 'visible';
         document.querySelector('#card-next').style.animation = "slide-in 0.5s ease-out forwards";
       } else {
         document.querySelector('#sub').innerHTML = "";
-      }
+      }*/
     }
-*/
+
     function end_trial(){
 
       display_element.innerHTML = '';
