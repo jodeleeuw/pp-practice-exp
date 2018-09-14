@@ -106,7 +106,10 @@
 </body>
 <script>
 
-var study_duration = 4000;
+var study_duration = 400;
+var n_words = 32;
+var practice_condition = jsPsych.randomization.sampleWithoutReplacement(['precious', 'painful'], 1)[0];
+var number_condition = jsPsych.randomization.sampleWithoutReplacement(['many', 'few'])[0];
 
 var word_pairs = [
   {cue:"money", target: "velvet"},
@@ -114,8 +117,36 @@ var word_pairs = [
   {cue:"college", target: "pest"},
   {cue:"body", target: "stripe"},
   {cue:"hand", target: "holiday"},
-  {cue:"glacier", target: "cylinder"}
-]
+  {cue:"glacier", target: "cylinder"},
+  {cue: "linen", target:"rock"},
+  {cue: "moss", target:"binder"},
+  {cue: "coral", target:"charm"},
+  {cue: "parcel", target:"history"},
+  {cue: "monarch", target:"viola"},
+  {cue: "tornado", target:"widow"},
+  {cue: "school", target:"rabbit"},
+  {cue: "machine", target:"havoc"},
+  {cue: "morning", target:"roost"},
+  {cue: "witch", target:"onion"},
+  {cue: "walrus", target:"ditch"},
+  {cue: "carrot", target:"mold"},
+  {cue: "bacteria", target:"wand"},
+  {cue: "room", target:"tomb"},
+  {cue: "clown", target:"chlorine"},
+  {cue: "emerald", target:"medicine"},
+  {cue: "radio", target:"oval"},
+  {cue: "land", target:"base"},
+  {cue: "pliers", target:"reserve"},
+  {cue: "road", target:"song"},
+  {cue: "test", target:"seam"},
+  {cue: "horse", target:"vanity"},
+  {cue: "vest", target:"expert"},
+  {cue: "sponge", target:"potatoes"},
+  {cue: "house", target:"illness"},
+  {cue: "hostage", target:"deputy"}
+];
+
+word_pairs = word_pairs.slice(0, n_words);
 
 var timeline = [];
 
@@ -193,8 +224,6 @@ var pre_study_precious = {
   post_trial_gap: 1000
 }
 
-timeline.push(pre_study_precious);
-
 var pre_study_painful = {
   type: 'dialog',
   stimulus: '<div style="width:900px;">'+
@@ -208,9 +237,9 @@ var pre_study_painful = {
     'will determine how many practice test trials you can get rid of for the next part of the experiment.</p>'+
     '</div><div style="width:40%; display: inline-block;">'+
     '<p>Normal practice:<br>Testing yourself on the pairs</p>'+
-    '<div class="mini-card"><p>napkin</p><input type="text" class="mini-quiz-input" value="?"></input></div>'+
+    '<div class="mini-card mini-type-a"><p>napkin</p><input type="text" class="mini-quiz-input" value="?"></input></div>'+
     '<p><span style="font-weight: bold; color: limegreen; font-style: italic;">Win restudy trials!</span><br>Opportunities to see the pairs again</p>'+
-    '<div class="mini-shiny-card"><p>napkin</p><p>viking</p></div>'+
+    '<div class="mini-card mini-type-b"><p>napkin</p><p>viking</p></div>'+
     '</div></div>',
   button_html: '<button class="dialog-btn">%choice%</button>',
   max_width: 900,
@@ -218,11 +247,20 @@ var pre_study_painful = {
   post_trial_gap: 1000
 }
 
-//timeline.push(pre_study_painful);
+if(practice_condition == 'precious'){
+  timeline.push(pre_study_precious);
+} else if(practice_condition == 'painful'){
+  timeline.push(pre_study_painful);
+}
 
+if(number_condition == 'many'){
+  var outcomes = [3,7,4,3];
+} else if(number_condition == 'few'){
+  var outcomes = [7,2,1,6];
+}
 var spin_game = {
   type: 'wheel-game',
-  outcomes: [3,7,4,3],
+  outcomes: jsPsych.randomization.shuffle(outcomes),
   post_trial_gap: 250
 }
 
@@ -239,15 +277,17 @@ var pre_practice = {
 timeline.push(pre_practice);
 
 var study_phase_stimuli = jsPsych.randomization.shuffle(jsPsych.utils.deepCopy(word_pairs));
-var number_test = 2;
-var precious_practice = true;
+if(practice_condition == 'precious'){
+  var number_test = number_condition == 'many' ? 24 : 8;
+} else if(practice_condition == 'painful'){
+  var number_test = number_condition == 'many' ? 8 : 24;
+}
+
 for(var i=0; i<study_phase_stimuli.length; i++){
   if(i < number_test){
     study_phase_stimuli[i].display = 'test'
-    study_phase_stimuli[i].shiny = precious_practice;
   } else {
     study_phase_stimuli[i].display = 'pair'
-    study_phase_stimuli[i].shiny = !precious_practice;
   }
 }
 study_phase_stimuli = jsPsych.randomization.shuffle(study_phase_stimuli);
