@@ -180,6 +180,7 @@ var pre_exposure_3 = {
   post_trial_gap: 250,
 }
 
+/*
 timeline.push(pre_exposure_1, pre_exposure_2, pre_exposure_3);
 
 var exposure_phase_stimuli = jsPsych.randomization.shuffle(jsPsych.utils.deepCopy(word_pairs));
@@ -201,18 +202,12 @@ for(var i=0; i<exposure_phase_stimuli.length; i++){
     next_shiny: false
   })
 }
-
+*/
 var pre_study_precious = {
   type: 'dialog',
   stimulus: '<div style="width:900px;">'+
     '<div style="width:60%; display: inline-block; text-align: left;">'+
-    '<p style="font-size: 38px;">Win Practice Opportunities!</p>'+
-    '<p>In most memory experiments, you would now be shown the pairs all over again. '+
-    'But that doesn’t seem like a good way to learn.  In this experiment, we’re going to '+
-    'give you the chance to win practice test trials, valuable opportunities to test yourself '+
-    'on some of the pairs, which should help you form better memories for the list.</p>'+
-    '<p>To help us get a good variety of learning experiences, you’ll play a quick game that '+
-    'will determine how many practice test opportunities you win for the next part of the experiment.</p>'+
+    '<video id="jspsych-video" autoplay><source src="video/clip4_winPractice.mp4" type="video/mp4"></video>'+
     '</div><div style="width:40%; perspective: 1000px; display: inline-block;">'+
     '<p>Normal restudy:<br>Just seeing the pairs again.</p>'+
     '<div class="mini-card '+left_card_bg+'"><p>napkin</p><p>viking</p></div>'+
@@ -249,9 +244,9 @@ var pre_study_painful = {
 }
 
 if(practice_condition == 'precious'){
-  timeline.push(pre_study_precious);
+  //timeline.push(pre_study_precious);
 } else if(practice_condition == 'painful'){
-  timeline.push(pre_study_painful);
+  //timeline.push(pre_study_painful);
 }
 
 if(number_condition == 'many'){
@@ -267,14 +262,20 @@ var spin_game = {
   post_trial_gap: 250
 }
 
-timeline.push(spin_game);
+//timeline.push(spin_game);
 
-var pre_practice = {
-  type: 'dialog',
-  stimulus: '<p>Time to study. Ready?</p>',
-  button_html: '<button class="dialog-btn">%choice%</button>',
-  choices: ["I'm ready! Let's go."],
-  post_trial_gap: 250,
+if(practice_condition == 'precious'){
+  var pre_practice = {
+    type: 'dialog-video',
+    stimulus: 'video/clip5_winPractice.mp4',
+    post_trial_gap: 250,
+  }
+} else {
+  var pre_practice = {
+    type: 'dialog-video',
+    stimulus: 'video/clip5_winRestudy.mp4',
+    post_trial_gap: 250,
+  }
 }
 
 timeline.push(pre_practice);
@@ -332,14 +333,23 @@ while(study_phase_stimuli.length > 0){
 }
 
 var post_study = {
-  type: 'dialog',
-  stimulus: '<p>Final dialog. Come back tomorrow!</p>',
-  button_html: '<button class="dialog-btn">%choice%</button>',
-  choices: ["Bye!"],
-  post_trial_gap: 1000
+  type: 'dialog-video',
+  stimulus: 'video/clip6.mp4',
+  post_trial_gap: 250,
 }
 
 timeline.push(post_study);
+
+var return_to_prolific = {
+  type: 'dialog',
+  stimulus: '<p><a href="#">Click here</a> to return to Prolific and complete the study.</p><p>You do not need a completion code.</p>',
+  button_html: '<button class="dialog-btn">%choice%</button>',
+  max_width: 900,
+  choices: [],
+  post_trial_gap: 1000
+}
+
+timeline.push(return_to_prolific);
 
 jsPsych.init({
   timeline: timeline
