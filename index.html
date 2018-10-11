@@ -6,6 +6,7 @@
   <script src="custom_plugins/jspsych-memory-quiz.js"></script>
   <script src="custom_plugins/jspsych-memory-quiz-stacks.js"></script>
   <script src="custom_plugins/jspsych-dialog.js"></script>
+  <script src="custom_plugins/jspsych-dialog-video.js"></script>
   <script src="custom_plugins/jspsych-wheel-game.js"></script>
   <!-- for the wheel game -->
   <script src='https://cdnjs.cloudflare.com/ajax/libs/gsap/1.20.2/TweenMax.min.js'></script>
@@ -154,31 +155,28 @@ word_pairs = word_pairs.slice(0, n_words);
 var timeline = [];
 
 var pre_exposure_1 = {
-  type: 'dialog',
-  stimulus: '<p style="font-size: 38px;">Welcome!</p>'+
-  '<p>You are about to participate in a memory experiment.</p>'+
-  '<p>Today, your job will be to learn 32 pairs of words, like "napkin - viking."<br>'+
-  'Tomorrow, you\'ll come back to take a test to see what you can remember.</p>',
-  button_html: '<button class="dialog-btn">%choice%</button>',
-  choices: ["Got it."],
+  type: 'dialog-video',
+  stimulus: 'video/clip1.mp4',
   post_trial_gap: 250,
 }
 
-var pre_exposure_2 = {
-  type: 'dialog',
-  stimulus: '<p>For today\'s learning session there\'s going to be two parts:</p>'+
-  '<p>In the first part we\'ll show you all 32 pairs, one by one, for about 4 seconds each.<br>'+
-  'In the second part you\'ll restudy the pairs, sometimes by seeing a pair again, or sometimes by testing yourself.</p>',
-  button_html: '<button class="dialog-btn">%choice%</button>',
-  choices: ["Got it."],
-  post_trial_gap: 250,
+if(practice_condition == 'precious'){
+  var pre_exposure_2 = {
+    type: 'dialog-video',
+    stimulus: 'video/clip2_winPractice.mp4',
+    post_trial_gap: 250,
+  }
+} else {
+  var pre_exposure_2 = {
+    type: 'dialog-video',
+    stimulus: 'video/clip2_winRestudy.mp4',
+    post_trial_gap: 250,
+  }
 }
 
 var pre_exposure_3 = {
-  type: 'dialog',
-  stimulus: '<p>The first part will start on the next screen. Your goal is to remember as many of these pairs as possible.</p>',
-  button_html: '<button class="dialog-btn">%choice%</button>',
-  choices: ["I'm ready! Let's go."],
+  type: 'dialog-video',
+  stimulus: 'video/clip3.mp4',
   post_trial_gap: 250,
 }
 
