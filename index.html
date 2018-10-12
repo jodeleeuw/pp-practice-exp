@@ -17,6 +17,7 @@
   <!-- above for the wheel game -->
   <link rel="stylesheet" type="text/css" href="jspsych-6.1-beta/css/jspsych.css"></link>
   <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+  <script src="js/serverComm.js"></script>
   <style>
 
   .dialog-btn {
@@ -105,9 +106,17 @@ var bgs = jsPsych.randomization.shuffle(['card-type-a', 'card-type-b']);
 var left_card_bg = bgs[0];
 var right_card_bg = bgs[1];
 
+// get subject ID
+var pid = jsPsych.data.getURLVariable('prolific_pid');
+if(pid == "" || pid == null || pid == undefined){
+  pid = 'NO_PROLIFIC_' + jsPsych.randomization.randomID(20);
+}
+
 jsPsych.data.addProperties({
   practice_condition,
-  number_condition
+  number_condition,
+  phase: 'learning',
+  participant_id: pid
 });
 
 var word_pairs = [
@@ -306,7 +315,7 @@ while(study_phase_stimuli.length > 0){
     right_stack_count: rs_count,
     left_card_bg: left_card_bg,
     right_card_bg: right_card_bg,
-    left_card_type: 'restudy' ,
+    left_card_type: 'restudy',
     right_card_type: 'practice test'
   });
   qnum++;
@@ -316,6 +325,10 @@ var post_study = {
   type: 'dialog-video',
   stimulus: 'video/clip6.mp4',
   post_trial_gap: 250,
+  on_start: function(){
+    var all_data = jsPsych.data.get().values();
+    serverComm.save_data(all_data);
+  }
 }
 
 timeline.push(post_study);
