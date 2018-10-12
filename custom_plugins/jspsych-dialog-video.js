@@ -11,6 +11,8 @@ jsPsych.plugins["dialog-video"] = (function() {
 
   var plugin = {};
 
+  jsPsych.pluginAPI.registerPreload('dialog-video', 'stimulus', 'video');
+
   plugin.info = {
     name: 'dialog',
     description: '',
@@ -65,12 +67,14 @@ jsPsych.plugins["dialog-video"] = (function() {
       html +="controls ";
     }
     html+=">";
-    html+='<source src="'+trial.stimulus+'" type="video/'+type+'">';
+    //html+='<source src="'+trial.stimulus+'" type="video/'+type+'">';
     html +="</video>";
     html += '</div>';
     html += '</div>';
 
     display_element.innerHTML = html;
+    
+    document.querySelector('#jspsych-video-player').src = jsPsych.pluginAPI.getVideoBuffer(trial.stimulus);
 
     var starttime = performance.now();
 
