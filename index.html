@@ -108,7 +108,7 @@
 <script>
 
 var study_duration = 400;
-var n_words = 4;
+var n_words = 32;
 var practice_condition = jsPsych.randomization.sampleWithoutReplacement(['precious', 'painful'], 1)[0];
 var number_condition = jsPsych.randomization.sampleWithoutReplacement(['many', 'few'])[0];
 var bgs = jsPsych.randomization.shuffle(['card-type-a', 'card-type-b']);
@@ -196,7 +196,7 @@ var pre_exposure_3 = {
   post_trial_gap: 250,
 }
 
-//timeline.push(pre_exposure_1, pre_exposure_2, pre_exposure_3);
+timeline.push(pre_exposure_1, pre_exposure_2, pre_exposure_3);
 
 var exposure_phase_stimuli = jsPsych.randomization.shuffle(jsPsych.utils.deepCopy(word_pairs));
 
