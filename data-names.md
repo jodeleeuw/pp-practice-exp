@@ -1,0 +1,1 @@
+["rt", "stimulus", "button_pressed", "trial_type", "trial_index", "time_elapsed", "internal_node_id", "practice_condition", "number_condition", "phase", "participant_id", "cue", "target", "display_type", "response", "correct"]
