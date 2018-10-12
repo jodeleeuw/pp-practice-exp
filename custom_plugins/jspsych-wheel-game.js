@@ -102,7 +102,6 @@ jsPsych.plugins["wheel-game"] = (function() {
         } else if(trial.practice_type == 'painful'){
             html += '<p>You\'ve won<br><span id="numWon" style="font-weight: bold; color: limegreen; font-size:36px;">0</span><br>restudy cards</p>';
         }
-        html += '<p>There are<br><span id="numLeft" style="font-weight: bold; color: red; font-size:36px;">32</span><br>study trials remaining</p>';
         html += '</div>';
         html += '<div style="width: 50%; display: inline-block;">';
         html += '<div class="mini-card '+right_card_bg+'"><p>napkin</p><input type="text" class="mini-quiz-input" value="?"></input></div>';
