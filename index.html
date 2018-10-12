@@ -273,7 +273,8 @@ var spin_game = {
   outcomes: jsPsych.randomization.shuffle(outcomes),
   left_card_bg: left_card_bg,
   right_card_bg: right_card_bg,
-  post_trial_gap: 250
+  post_trial_gap: 250,
+  practice_type: practice_condition
 }
 
 timeline.push(spin_game);
@@ -340,8 +341,8 @@ while(study_phase_stimuli.length > 0){
     right_stack_count: rs_count,
     left_card_bg: left_card_bg,
     right_card_bg: right_card_bg,
-    left_card_type: practice_condition == 'precious' ? 'restudy' : 'practice test',
-    right_card_type: practice_condition == 'painful' ? 'restudy' : 'practice test'
+    left_card_type: 'restudy' ,
+    right_card_type: 'practice test'
   });
   qnum++;
 }
