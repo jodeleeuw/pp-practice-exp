@@ -72,6 +72,8 @@ jsPsych.plugins["dialog-video"] = (function() {
 
     display_element.innerHTML = html;
 
+    var starttime = performance.now();
+
     display_element.querySelector('#jspsych-video-player').onended = function(){
       check_replay();
     }
@@ -101,7 +103,8 @@ jsPsych.plugins["dialog-video"] = (function() {
 
       // gather the data to store for the trial
       var trial_data = {
-        "stimulus": trial.stimulus
+        stimulus: trial.stimulus,
+        rt: performance.now() - starttime
       };
 
       // clear the display
