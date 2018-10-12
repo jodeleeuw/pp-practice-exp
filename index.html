@@ -159,6 +159,17 @@ word_pairs = word_pairs.slice(0, n_words);
 
 var timeline = [];
 
+var welcome = {
+  type: 'dialog',
+  max_width: 600,
+  stimulus: '<p>This experiment involves audio and video. Please make sure that your sound is on and at a comfortable volume.</p>',
+  choices: ['I\'m ready to start'],
+  button_html: '<button class="dialog-btn">%choice%</button>',
+  post_trial_gap: 250
+}
+
+timeline.push(welcome);
+
 var pre_exposure_1 = {
   type: 'dialog-video',
   stimulus: 'video/clip1.mp4',
