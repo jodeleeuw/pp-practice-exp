@@ -111,7 +111,7 @@ jsPsych.plugins["memory-quiz"] = (function() {
       jsPsych.pluginAPI.getKeyboardResponse({
         callback_function: after_response,
         valid_responses: [13],
-        rt_method: 'date',
+        rt_method: 'performance',
         persist: false,
         allow_held_key: false
       });
