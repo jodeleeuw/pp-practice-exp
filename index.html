@@ -115,6 +115,11 @@ var bgs = jsPsych.randomization.shuffle(['card-type-a', 'card-type-b']);
 var left_card_bg = bgs[0];
 var right_card_bg = bgs[1];
 
+jsPsych.data.addProperties({
+  practice_condition,
+  number_condition
+});
+
 var word_pairs = [
   {cue:"money", target: "velvet"},
   {cue:"robber", target: "stairway"},
