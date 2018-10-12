@@ -162,7 +162,7 @@ var timeline = [];
 var welcome = {
   type: 'dialog',
   max_width: 600,
-  stimulus: '<p>This experiment involves audio and video. Please make sure that your sound is on and at a comfortable volume.</p>',
+  stimulus: '<p>This experiment uses audio instructions. Please make sure that your sound is on and at a comfortable volume.</p>',
   choices: ['I\'m ready to start'],
   button_html: '<button class="dialog-btn">%choice%</button>',
   post_trial_gap: 250
@@ -216,46 +216,6 @@ for(var i=0; i<exposure_phase_stimuli.length; i++){
     next_display: 'pair',
     next_shiny: false
   })
-}
-
-var pre_study_precious = {
-  type: 'dialog',
-  stimulus: '<div style="width:900px;">'+
-    '<div style="width:60%; display: inline-block; text-align: left;">'+
-    '<video id="jspsych-video" autoplay><source src="video/clip4_winPractice.mp4" type="video/mp4"></video>'+
-    '</div><div style="width:40%; perspective: 1000px; display: inline-block;">'+
-    '<p>Normal restudy:<br>Just seeing the pairs again.</p>'+
-    '<div class="mini-card '+left_card_bg+'"><p>napkin</p><p>viking</p></div>'+
-    '<p><span style="font-weight: bold; color: limegreen; font-style: italic;">Win practice trials!</span><br>Opportunities to test yourself</p>'+
-    '<div class="mini-card '+right_card_bg+'"><p>napkin</p><input type="text" class="mini-quiz-input" value="?"></input></div>'+
-    '</div></div>',
-  button_html: '<button class="dialog-btn">%choice%</button>',
-  max_width: 900,
-  choices: ["Got it. Let's go!"],
-  post_trial_gap: 1000
-}
-
-var pre_study_painful = {
-  type: 'dialog',
-  stimulus: '<div style="width:900px;">'+
-    '<div style="width:60%; display: inline-block; text-align: left;">'+
-    '<p style="font-size: 38px;">Reduce the Practice Tests!</p>'+
-    '<p>In most memory experiments, you would now be asked to test yourself on all the pairs. '+
-    'But that doesn’t seem like a good way to learn.  In this experiment, we’re going to '+
-    'give you the chance to reduce the number of practice test trials, replacing them with '+
-    'trials where you get to see the pairs, which should help you form better memories for the list.</p>'+
-    '<p>To help us get a good variety of learning experiences, you’ll play a quick game that '+
-    'will determine how many practice test trials you can get rid of for the next part of the experiment.</p>'+
-    '</div><div style="width:40%; display: inline-block;">'+
-    '<p>Normal practice:<br>Testing yourself on the pairs</p>'+
-    '<div class="mini-card '+left_card_bg+'"><p>napkin</p><input type="text" class="mini-quiz-input" value="?"></input></div>'+
-    '<p><span style="font-weight: bold; color: limegreen; font-style: italic;">Win restudy trials!</span><br>Opportunities to see the pairs again</p>'+
-    '<div class="mini-card '+right_card_bg+'"><p>napkin</p><p>viking</p></div>'+
-    '</div></div>',
-  button_html: '<button class="dialog-btn">%choice%</button>',
-  max_width: 900,
-  choices: ["Got it. Let's go!"],
-  post_trial_gap: 1000
 }
 
 if(practice_condition == 'precious'){
