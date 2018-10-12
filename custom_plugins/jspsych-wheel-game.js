@@ -27,6 +27,10 @@ jsPsych.plugins["wheel-game"] = (function() {
         right_card_bg : {
             type: jsPsych.plugins.parameterType.STRING,
             default: undefined
+        },
+        practice_type: {
+            type: jsPsych.plugins.parameterType.STRING,
+            default: undefined
         }
       }
     }
@@ -86,14 +90,28 @@ jsPsych.plugins["wheel-game"] = (function() {
         html += '</div> ';
         html += '</div>';
         html += '<div class="textContainer" style="perspective: 1000px;">';
-        html += '<p style="font-size: 36px;">Win practice trials!</p>';
+        if(trial.practice_type == 'precious'){
+            html += '<p style="font-size: 36px;">Win practice test cards!</p>';
+        } else if(trial.practice_type == 'painful'){
+            html += '<p style="font-size: 36px;">Win restudy cards!</p>';
+        }
         html += '<div style="width: 50%; float: left;">';
         html += '<div class="mini-card '+left_card_bg+'"><p>napkin</p><p>viking</p></div>';
+        if(trial.practice_type == 'precious'){
+            html += '<p>There are<br><span id="numLeft" style="font-weight: bold; color: red; font-size:36px;">32</span><br>restudy cards remaining</p>';
+        } else if(trial.practice_type == 'painful'){
+            html += '<p>You\'ve won<br><span id="numWon" style="font-weight: bold; color: limegreen; font-size:36px;">0</span><br>restudy cards</p>';
+        }
         html += '<p>There are<br><span id="numLeft" style="font-weight: bold; color: red; font-size:36px;">32</span><br>study trials remaining</p>';
         html += '</div>';
         html += '<div style="width: 50%; display: inline-block;">';
         html += '<div class="mini-card '+right_card_bg+'"><p>napkin</p><input type="text" class="mini-quiz-input" value="?"></input></div>';
-        html += '<p>You\'ve won<br><span id="numWon" style="font-weight: bold; color: limegreen; font-size:36px;">0</span><br>practice trials</p>';
+        if(trial.practice_type == 'precious'){
+            html += '<p>You\'ve won<br><span id="numWon" style="font-weight: bold; color: limegreen; font-size:36px;">0</span><br>practice test cards</p>';
+        } else if(trial.practice_type == 'painful'){
+            html += '<p>There are<br><span id="numLeft" style="font-weight: bold; color: red; font-size:36px;">32</span><br>practice test cards remaining</p>';
+        }
+        
         html += '</div>';
         html += '<p style="font-size:22px;">You have <span id="spinsLeft">4 spins</span> remaining</p>';
         html += '<button id="spinBtn" class="spinBtn">Spin!</button>';
@@ -154,18 +172,32 @@ jsPsych.plugins["wheel-game"] = (function() {
             }, {once: true})
         }
 
+        if(trial.practice_type == 'precious'){
+            var segmentValuesArray = [
+                {"type": "string", "value": "+2", "win": false, "resultText": "You win 2 additional practice test cards.", "userData": {"score":2}},
+                {"type": "string", "value": "+1", "win": false, "resultText": "You win 1 additional practice test card.", "userData": {"score":1}},
+                {"type": "string", "value": "+6", "win": false, "resultText": "You win 6 additional practice test cards.", "userData": {"score":6}},
+                {"type": "string", "value": "+8", "win": false, "resultText": "You win 8 additional practice test cards.", "userData": {"score":8}},
+                {"type": "string", "value": "+3", "win": false, "resultText": "You win 3 additional practice test cards.", "userData": {"score":3}},
+                {"type": "string", "value": "+1", "win": false, "resultText": "You win 1 additional practice test card.", "userData": {"score":1}}, 
+                {"type": "string", "value": "+4", "win": false, "resultText": "You win 4 additional practice test cards.", "userData": {"score":4}}
+            ];
+        } else if(trial.practice_type == 'painful'){
+            var segmentValuesArray = [
+                {"type": "string", "value": "+2", "win": false, "resultText": "You win 2 additional restudy cards.", "userData": {"score":2}},
+                {"type": "string", "value": "+1", "win": false, "resultText": "You win 1 additional restudy card.", "userData": {"score":1}},
+                {"type": "string", "value": "+6", "win": false, "resultText": "You win 6 additional restudy cards.", "userData": {"score":6}},
+                {"type": "string", "value": "+8", "win": false, "resultText": "You win 8 additional restudy cards.", "userData": {"score":8}},
+                {"type": "string", "value": "+3", "win": false, "resultText": "You win 3 additional restudy cards.", "userData": {"score":3}},
+                {"type": "string", "value": "+1", "win": false, "resultText": "You win 1 additional restudy card.", "userData": {"score":1}}, 
+                {"type": "string", "value": "+4", "win": false, "resultText": "You win 4 additional restudy cards.", "userData": {"score":4}}
+            ];
+        }
+
         function init() {
             var data = {
                 "colorArray":   [ "#364C62", "#F1C40F", "#E67E22", "#E74C3C", "#95A5A6", "#16A085", "#27AE60", "#2980B9", "#8E44AD", "#2C3E50", "#F39C12", "#D35400", "#C0392B", "#BDC3C7","#1ABC9C", "#2ECC71", "#E87AC2", "#3498DB", "#9B59B6", "#7F8C8D"],
-                "segmentValuesArray" : [
-                    {"type": "string", "value": "+2", "win": false, "resultText": "You win 2 additional practice test trials.", "userData": {"score":2}},
-                    {"type": "string", "value": "+1", "win": false, "resultText": "You win 1 additional practice test trial.", "userData": {"score":1}},
-                    {"type": "string", "value": "+6", "win": false, "resultText": "Wow! You win 6 additional practice test trials.", "userData": {"score":6}},
-                    {"type": "string", "value": "+8", "win": false, "resultText": "Awesome! You win 8 additional practice test trials.", "userData": {"score":8}},
-                    {"type": "string", "value": "+3", "win": false, "resultText": "Not bad. That's 3 additional practice test trials!", "userData": {"score":3}},
-                    {"type": "string", "value": "+1", "win": false, "resultText": "You win 1 additional practice test trial.", "userData": {"score":1}}, 
-                    {"type": "string", "value": "+4", "win": false, "resultText": "Nice spin. You win 4 additional practice test trials.", "userData": {"score":4}}
-                ],
+                "segmentValuesArray" : segmentValuesArray,
                 "svgWidth": 500,
                 "svgHeight": 500,
                 "wheelStrokeColor": "#CCCCCC",
