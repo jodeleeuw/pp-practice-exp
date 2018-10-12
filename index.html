@@ -165,7 +165,11 @@ var welcome = {
   stimulus: '<p>This experiment uses audio instructions. Please make sure that your sound is on and at a comfortable volume.</p>',
   choices: ['I\'m ready to start'],
   button_html: '<button class="dialog-btn">%choice%</button>',
-  post_trial_gap: 250
+  post_trial_gap: 250,
+  on_start: function(){
+    var bg_style = "<style>body {background: repeating-linear-gradient( 90deg, hsla(232, 41%, 56%, 1), hsla(232, 41%, 56%, 1) 3px, hsla(232, 41%, 60%, 1) 3px, hsla(232, 41%, 60%, 1) 18px)</style>";
+    document.querySelector('head').insertAdjacentHTML('beforeend', bg_style);
+  }
 }
 
 timeline.push(welcome);
