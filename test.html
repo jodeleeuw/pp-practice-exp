@@ -3,6 +3,9 @@
 <head>
   <script src="jspsych-6.1-beta/jspsych.js"></script>
   <script src="jspsych-6.1-beta/plugins/jspsych-html-button-response.js"></script>
+  <script src="jspsych-6.1-beta/plugins/jspsych-survey-likert.js"></script>
+  <script src="jspsych-6.1-beta/plugins/jspsych-survey-text.js"></script>
+  <script src="jspsych-6.1-beta/plugins/jspsych-survey-multi-choice.js"></script>
   <script src="custom_plugins/jspsych-memory-quiz.js"></script>
   <script src="custom_plugins/jspsych-dialog.js"></script>
   <script src="custom_plugins/jspsych-dialog-video.js"></script>
@@ -99,10 +102,10 @@ var pre_test = {
   post_trial_gap: 1000
 }
 
-timeline.push(pre_test);
+//timeline.push(pre_test);
 
 var test_phase_stimuli = jsPsych.randomization.shuffle(jsPsych.utils.deepCopy(word_pairs));
-
+/*
 for(var i=0; i<test_phase_stimuli.length; i++){
   timeline.push({
     type: 'memory-quiz',
@@ -123,16 +126,16 @@ for(var i=0; i<test_phase_stimuli.length; i++){
     next_shiny: false
   })
 }
-
+*/
 var post_test = {
   type: 'dialog',
   stimulus: function(){
     var numCorrect = jsPsych.data.get().filter({trial_type: 'memory-quiz', correct: true}).count();
     var numTotal = jsPsych.data.get().filter({trial_type: 'memory-quiz'}).count();
-    return '<p>You remembered '+numCorrect+' out of '+numTotal+'.</p><p>All done!</p>'
+    return '<p>You remembered '+numCorrect+' out of '+numTotal+'.</p><p>There is a short set of survey questions for you to complete, and then you will be done with the experiment.</p>'
   },
   button_html: '<button class="dialog-btn">%choice%</button>',
-  choices: ["Bye!"],
+  choices: ["Continue to survey"],
   post_trial_gap: 1000,
   on_start: function(){
     var all_data = jsPsych.data.get().values();
@@ -142,13 +145,72 @@ var post_test = {
 
 timeline.push(post_test);
 
+var survey_1 = {
+  type: 'survey-likert',
+  questions: [{
+    prompt: 'I was motivated to do well in this experiment.',
+    labels: ['Strongly disagree', 'Disagree', 'Neutral', 'Agree', 'Strongly Agree']
+  }],
+  data: {survey_part: 1},
+  on_start: function(){
+    var html = '<style id="survey-style">';
+    html += '.jspsych-btn { background: #FFA500; color: white; border-radius: 4px; padding: 12px 24px; border-style: none; cursor: pointer; }'
+    html += '.jspsych-btn:hover { background: #FF8C00; }';
+    html += '.jspsych-content { background-color: white; padding: 20px 50px; box-shadow: 0 2px 4px 0 rgba(0,0,0,0.50);</style>';
+    document.querySelector('head').insertAdjacentHTML('beforeend',html)
+  }
+}
+
+var survey_2 = {
+  type: 'survey-likert',
+  questions: [{
+    prompt: 'Re-study cards (like the one above) were helpful during the learning phase.',
+    labels: ['Strongly disagree', 'Disagree', 'Neutral', 'Agree', 'Strongly Agree']
+  }],
+  data: {survey_part: 2}
+}
+
+var survey_3 = {
+  type: 'survey-likert',
+  questions: [{
+    prompt: 'Practice-test cards (like the one above) were helpful during the learning phase.',
+    labels: ['Strongly disagree', 'Disagree', 'Neutral', 'Agree', 'Strongly Agree']
+  }],
+  data: {survey_part: 3}
+}
+
+var survey_4 = {
+  type: 'survey-multi-choice',
+  questions:[{
+    prompt: 'Did you practice any of the words?',
+    options: ['Yes','No']
+  }],
+  data: {survey_part: 4}
+}
+
+var survey_5 = {
+  timeline: [{
+    type: 'survey-text',
+    questions: [{prompt: 'Describe what kind of practice you did.', rows:8}]
+  }],
+  conditional_function: function(){
+    var d = JSON.parse(jsPsych.data.get().filter({survey_part: 4}).values()[0].responses).Q0;
+    return d == 'Yes';
+  }
+}
+
+timeline.push(survey_1, survey_2, survey_3, survey_4, survey_5);
+
 var return_to_prolific = {
   type: 'dialog',
-  stimulus: '<p><a href="#">Click here</a> to return to Prolific and complete the study.</p><p>You do not need a completion code.</p>',
+  stimulus: '<p>Thanks again for participating!</p><p><a href="#">Click here</a> to return to Prolific and complete the study.</p><p>You do not need a completion code.</p>',
   button_html: '<button class="dialog-btn">%choice%</button>',
   max_width: 900,
   choices: [],
-  post_trial_gap: 1000
+  post_trial_gap: 1000,
+  on_start: function(){
+    document.querySelector('#survey-style').remove();
+  }
 }
 
 timeline.push(return_to_prolific);
