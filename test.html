@@ -9,7 +9,7 @@
   <script src="custom_plugins/jspsych-memory-quiz.js"></script>
   <script src="custom_plugins/jspsych-dialog.js"></script>
   <script src="custom_plugins/jspsych-dialog-video.js"></script>
-  <link rel="stylesheet" type="text/css" href="jspsych-6.0.3/css/jspsych.css"></link>
+  <link rel="stylesheet" type="text/css" href="jspsych-6.1-beta/css/jspsych.css"></link>
   <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
   <script src="js/serverComm.js"></script>
   <style>
@@ -102,10 +102,10 @@ var pre_test = {
   post_trial_gap: 1000
 }
 
-//timeline.push(pre_test);
+timeline.push(pre_test);
 
 var test_phase_stimuli = jsPsych.randomization.shuffle(jsPsych.utils.deepCopy(word_pairs));
-/*
+
 for(var i=0; i<test_phase_stimuli.length; i++){
   timeline.push({
     type: 'memory-quiz',
@@ -126,7 +126,7 @@ for(var i=0; i<test_phase_stimuli.length; i++){
     next_shiny: false
   })
 }
-*/
+
 var post_test = {
   type: 'dialog',
   stimulus: function(){
