@@ -159,6 +159,7 @@ jsPsych.plugins["memory-quiz-stacks"] = (function() {
       var correct = response == trial.target;
       trial_data.response = response;
       trial_data.correct = correct;
+      trial_data.rt = info.rt;
       slide_out();
     }
 

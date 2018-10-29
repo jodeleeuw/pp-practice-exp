@@ -19,6 +19,7 @@
   <link rel="stylesheet" type="text/css" href="jspsych-6.1-beta/css/jspsych.css"></link>
   <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
   <script src="js/serverComm.js"></script>
+  <script src="js/browserType.js"></script>
   <style>
 
   .dialog-btn {
@@ -355,9 +356,20 @@ var return_to_prolific = {
 
 timeline.push(return_to_prolific);
 
-jsPsych.init({
-  timeline: timeline
-})
+if(browserType.isChrome || browserType.isFirefox){
+  jsPsych.init({
+    timeline: timeline
+  });
+} else {
+  jsPsych.init({
+    timeline: [{
+      type: 'html-keyboard-response',
+      stimulus: '<p>Sorry, this experiment only works with Chrome or Firefox.</p><p>If you would like to participate, please open the experiment in either Chrome or Firefox. Thank you!</p>',
+      choices: jsPsych.NO_KEYS
+    }]
+  })
+}
+
 
 </script>
 </html>
