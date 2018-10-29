@@ -121,7 +121,7 @@ jsPsych.plugins["memory-quiz-stacks"] = (function() {
     if(trial.display == 'test'){
       html += '<p style="line-height:150px; margin:0;">'+trial.cue+'</p>';
       html += '<input type="text" class="quiz-input"></input>';
-      html += '<p class="quiz-subtext">Type a question mark (?) if you can\'t remember.</p>';
+      html += '<p class="quiz-subtext">Type a question mark (?) if you can\'t remember. Press enter to submit.</p>';
     }
     html += '</div>';
 

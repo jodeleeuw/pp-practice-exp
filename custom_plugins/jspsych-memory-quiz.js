@@ -72,7 +72,7 @@ jsPsych.plugins["memory-quiz"] = (function() {
       html += '<p style="line-height:150px; margin:0;">'+trial.target+'</p>';
     } else if(trial.display == "test") {
       html += '<input type="text" class="quiz-input"></input>';
-      html += '<p class="quiz-subtext">Type a question mark (?) if you can\'t remember.</p>';
+      html += '<p class="quiz-subtext">Type a question mark (?) if you can\'t remember. Press enter to submit.</p>';
     }
     html += '</div>';
     html += '</div>';
@@ -88,7 +88,7 @@ jsPsych.plugins["memory-quiz"] = (function() {
         html += '<p style="line-height:150px; margin:0;">'+trial.next_target+'</p>';
       } else if(trial.next_display == "test") {
         html += '<input type="text" class="quiz-input"></input>';
-        html += '<p class="quiz-subtext">Type a question mark (?) if you can\'t remember.</p>';
+        html += '<p class="quiz-subtext">Type a question mark (?) if you can\'t remember. Press enter to submit.</p>';
       }
       html += '</div>';
       html += '</div>';
@@ -126,6 +126,7 @@ jsPsych.plugins["memory-quiz"] = (function() {
       var correct = response == trial.target;
       trial_data.response = response;
       trial_data.correct = correct;
+      trial_data.rt = info.rt;
       if(trial.show_feedback){
         // audio
         var context = jsPsych.pluginAPI.audioContext();

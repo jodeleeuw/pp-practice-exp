@@ -3,6 +3,7 @@
 <head>
   <script src="jspsych-6.1-beta/jspsych.js"></script>
   <script src="jspsych-6.1-beta/plugins/jspsych-html-button-response.js"></script>
+  <script src="jspsych-6.1-beta/plugins/jspsych-html-keyboard-response.js"></script>
   <script src="custom_plugins/jspsych-memory-quiz.js"></script>
   <script src="custom_plugins/jspsych-memory-quiz-stacks.js"></script>
   <script src="custom_plugins/jspsych-dialog.js"></script>
@@ -116,7 +117,8 @@ jsPsych.data.addProperties({
   practice_condition,
   number_condition,
   phase: 'learning',
-  participant_id: pid
+  participant_id: pid,
+  user_agent: navigator.userAgent
 });
 
 var word_pairs = [
@@ -157,6 +159,14 @@ var word_pairs = [
 word_pairs = word_pairs.slice(0, n_words);
 
 var timeline = [];
+
+var no_mobile = {
+  type: 'html-keyboard-response',
+  stimulus: '<p>The experiment has finished loading. Press C to continue.</p>',
+  choices: ['c']
+}
+
+timeline.push(no_mobile);
 
 var welcome = {
   type: 'dialog',
@@ -326,6 +336,7 @@ var post_study = {
   stimulus: 'video/clip6.mp4',
   post_trial_gap: 250,
   on_start: function(){
+    jsPsych.data.addProperties({completion_time: new Date().toLocaleString()});
     var all_data = jsPsych.data.get().values();
     serverComm.save_data(all_data);
   }
@@ -335,7 +346,7 @@ timeline.push(post_study);
 
 var return_to_prolific = {
   type: 'dialog',
-  stimulus: '<p><a href="#">Click here</a> to return to Prolific and complete the study.</p><p>You do not need a completion code.</p>',
+  stimulus: '<p><a href="https://app.prolific.ac/submissions/complete?cc=GP2OQGPR">Click here</a> to return to Prolific and complete the study.</p><p>You do not need a completion code.</p>',
   button_html: '<button class="dialog-btn">%choice%</button>',
   max_width: 900,
   choices: [],

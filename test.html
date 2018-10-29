@@ -3,6 +3,7 @@
 <head>
   <script src="jspsych-6.1-beta/jspsych.js"></script>
   <script src="jspsych-6.1-beta/plugins/jspsych-html-button-response.js"></script>
+  <script src="jspsych-6.1-beta/plugins/jspsych-html-keyboard-response.js"></script>
   <script src="jspsych-6.1-beta/plugins/jspsych-survey-likert.js"></script>
   <script src="jspsych-6.1-beta/plugins/jspsych-survey-text.js"></script>
   <script src="jspsych-6.1-beta/plugins/jspsych-survey-multi-choice.js"></script>
@@ -27,6 +28,35 @@
   .dialog-btn:hover {
     background: #FF8C00;
   }
+
+  .mini-card {
+    color: #555;
+    font-size: 24px;
+    line-height: 45px;
+    width: 150px;
+    height: 90px;
+    margin: auto;
+    background-color: #fff;
+    border: 5px solid white;
+    box-shadow:
+      0 2px 4px 0 rgba(0,0,0,0.50);
+    backface-visibility: hidden;
+    transform-style: preserve-3d;
+  }
+
+  .mini-card p {
+    margin:0;
+  }
+
+  .mini-card input[type="text"] {
+    font-size: 24px;
+    font-family: 'Open Sans';
+    color: #555;
+    text-align: center;
+    width: 120px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+  }
   </style>
 </head>
 <body>
@@ -41,7 +71,8 @@ if(pid == "" || pid == null || pid == undefined){
 
 jsPsych.data.addProperties({
   phase: 'testing',
-  participant_id: pid
+  participant_id: pid,
+  user_agent: navigator.userAgent
 });
 
 var word_pairs = [
@@ -80,6 +111,14 @@ var word_pairs = [
 ];
 
 var timeline = [];
+
+var no_mobile = {
+  type: 'html-keyboard-response',
+  stimulus: '<p>The experiment has finished loading. Press C to continue.</p>',
+  choices: ['c']
+}
+
+timeline.push(no_mobile);
 
 var welcome = {
   type: 'dialog',
@@ -136,11 +175,7 @@ var post_test = {
   },
   button_html: '<button class="dialog-btn">%choice%</button>',
   choices: ["Continue to survey"],
-  post_trial_gap: 1000,
-  on_start: function(){
-    var all_data = jsPsych.data.get().values();
-    serverComm.save_data(all_data);
-  }
+  post_trial_gap: 1000
 }
 
 timeline.push(post_test);
@@ -163,7 +198,8 @@ var survey_1 = {
 
 var survey_2 = {
   type: 'survey-likert',
-  questions: [{
+  preamble: '<div class="mini-card"><p>napkin</p><p>viking</p></div>',
+  questions: [{    
     prompt: 'Re-study cards (like the one above) were helpful during the learning phase.',
     labels: ['Strongly disagree', 'Disagree', 'Neutral', 'Agree', 'Strongly Agree']
   }],
@@ -172,6 +208,7 @@ var survey_2 = {
 
 var survey_3 = {
   type: 'survey-likert',
+  preamble: '<div class="mini-card"><p>napkin</p><input type="text" class="mini-quiz-input" value="?"></input></div>',
   questions: [{
     prompt: 'Practice-test cards (like the one above) were helpful during the learning phase.',
     labels: ['Strongly disagree', 'Disagree', 'Neutral', 'Agree', 'Strongly Agree']
@@ -182,7 +219,7 @@ var survey_3 = {
 var survey_4 = {
   type: 'survey-multi-choice',
   questions:[{
-    prompt: 'Did you practice any of the word pairs in between the end of the first part of the experiment and the beginning of the second?',
+    prompt: 'Did you practice any of the word pairs in between the end<br>of the first part of the experiment and the beginning of the second?',
     options: ['Yes','No']
   }],
   data: {survey_part: 4}
@@ -201,16 +238,34 @@ var survey_5 = {
 
 timeline.push(survey_1, survey_2, survey_3, survey_4, survey_5);
 
+var debrief = {
+  type: 'dialog',
+  stimulus: 
+  '<p>Thanks for participating! Below is more information about the purpose of the experiment. On the next page is a link to complete the study and return to Prolific.</p>'+
+  '<p>In this experiment you started by studying a list of word pairs. Then you played a short game to determine the number of practice trials and re-study trials you would get to help improve your memory for the word pairs. You then performed these activities, and later you were tested on your knowledge.</p>'+
+  '<p>We are interested in how your perception of practice trials and re-study trials affects how well people learn. In the game, half the participants were awarded practice trials (replacing re-study trials), while the other half of participants were awarded re-study trials (replacing practice trials). We are interested in how these differences in perceptions of learning activities influence the relative benefits of these learning activities. To do this, we compare how much people that saw the two forms of the game learned and remembered.</p>'+
+  '<p>This knowledge will help us understand how students’ perceptions of learning activities can influence learning outcomes and how these interact with students’ own studying techniques.</p>',
+  button_html: '<button class="dialog-btn">%choice%</button>',
+  max_width: 900,
+  choices: ["Continue"],
+  post_trial_gap: 1000,
+  on_start: function(){
+    jsPsych.data.addProperties({completion_time: new Date().toLocaleString()});
+    var all_data = jsPsych.data.get().values();
+    serverComm.save_data(all_data);
+    document.querySelector('#survey-style').remove();
+  }
+}
+
+timeline.push(debrief);
+
 var return_to_prolific = {
   type: 'dialog',
-  stimulus: '<p>Thanks again for participating!</p><p><a href="#">Click here</a> to return to Prolific and complete the study.</p><p>You do not need a completion code.</p>',
+  stimulus: '<p>Thanks again for participating!</p><p><a href="https://app.prolific.ac/submissions/complete?cc=VTXDL08A">Click here</a> to return to Prolific and complete the study.</p><p>You do not need a completion code.</p>',
   button_html: '<button class="dialog-btn">%choice%</button>',
   max_width: 900,
   choices: [],
-  post_trial_gap: 1000,
-  on_start: function(){
-    document.querySelector('#survey-style').remove();
-  }
+  post_trial_gap: 1000
 }
 
 timeline.push(return_to_prolific);
