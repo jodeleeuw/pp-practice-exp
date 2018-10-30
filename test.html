@@ -277,7 +277,8 @@ timeline.push(return_to_prolific);
 if(browserType.isChrome || browserType.isFirefox){
   jsPsych.init({
     timeline: timeline,
-    use_webaudio: false
+    use_webaudio: false,
+    max_load_time: 4000000
   });
 } else {
   jsPsych.init({
