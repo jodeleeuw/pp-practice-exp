@@ -251,7 +251,10 @@ var debrief = {
   choices: ["Continue"],
   post_trial_gap: 1000,
   on_start: function(){
-    jsPsych.data.addProperties({completion_time: new Date().toLocaleString()});
+    jsPsych.data.addProperties({
+      completion_time: new Date().toLocaleString(),
+      interactions: jsPsych.data.getInteractionData().json()
+    });
     var all_data = jsPsych.data.get().values();
     serverComm.save_data(all_data);
     document.querySelector('#survey-style').remove();

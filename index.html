@@ -337,7 +337,10 @@ var post_study = {
   stimulus: 'video/clip6.mp4',
   post_trial_gap: 250,
   on_start: function(){
-    jsPsych.data.addProperties({completion_time: new Date().toLocaleString()});
+    jsPsych.data.addProperties({
+      completion_time: new Date().toLocaleString(),
+      interactions: jsPsych.data.getInteractionData().json()
+    });
     var all_data = jsPsych.data.get().values();
     serverComm.save_data(all_data);
   }
