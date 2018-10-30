@@ -13,10 +13,10 @@ browserType.isSafari = /constructor/i.test(window.HTMLElement) || (function (p) 
 browserType.isIE = /*@cc_on!@*/false || !!document.documentMode;
 
 // Edge 20+
-browserType.isEdge = !isIE && !!window.StyleMedia;
+browserType.isEdge = !browserType.isIE && !!window.StyleMedia;
 
 // Chrome 1+
 browserType.isChrome = !!window.chrome && !!window.chrome.webstore;
 
 // Blink engine detection
-browserType.isBlink = (isChrome || isOpera) && !!window.CSS;
+browserType.isBlink = (browserType.isChrome || browserType.isOpera) && !!window.CSS;
